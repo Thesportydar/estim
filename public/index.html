@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <style>
+      .sortorder:after {
+        content: "\25b2";
+      }
+      .sortorder.reverse:after {
+        content: "\25bc";
+      }
+    </style>
+    <meta charset="utf-8" />
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <!-- Optional theme -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <script src="app.js"></script>
+    <title>Products Store</title>
+  </head>
+  <body ng-controller="mainCtrl">
+    <div style="display: block; width: 100%">
+      <div style="width: 85%; float: left; display: inline-block">
+        <h1>Estimcito</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+                <input
+                  type="text"
+                  ng-model="search"
+                  placeholder="Escribe el nombre del juego"
+                  class="form-control"
+                />
+              </th>
+              <th>
+                <button class="btn btn-primary" ng-click="searchBy()">
+                  Search
+                </button>
+              </th>
+              <th>
+                <select
+                  ng-model="propertyName"
+                  class="form-control"
+                  ng-options="option for option in options"
+                ></select>
+              </th>
+              <th>
+                <button class="btn btn-primary" ng-click="reverse = !reverse">
+                  Reverse
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="gam in games | orderBy:propertyName:reverse">
+              <td>
+                <img
+                  ng-src="{{gam.header_image}}"
+                  alt="{{gam.name}}"
+                  width="100"
+                  height="100"
+                />
+              </td>
+
+              <td>{{gam.appid}}</td>
+              <td>{{gam.name | uppercase}}</td>
+              <td>{{gam.release_date | date:"dd MMM yyyy"}}</td>
+              <td>{{gam.average_playtime}}</td>
+              <td>{{gam.price | currency:"$" }}</td>
+              <td>
+                <button class="btn btn-danger" ng-click="remove(gam.appid)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+        <div style="width: 15%; float: right; display: inline-block">
+        <table class="table">
+            <thead>
+                <button class="btn btn-info" ng-click="toggleShowCategories()"> Categories </button>
+            <tbody>
+                <tr ng-repeat="cat in categories | limitTo: limCat">
+                    <td> <input type="checkbox" ng-model="cat.checked" ng-change="filterByCategory(cat)" /> {{cat.name}} </td>
+                </tr>
+            </tbody>
+      </div>
+  </body>
+</html>
