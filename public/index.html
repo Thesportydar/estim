@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html ng-app="app">
   <head>
-    <style>
-      .sortorder:after {
-        content: "\25b2";
-      }
-      .sortorder.reverse:after {
-        content: "\25bc";
-      }
-    </style>
+    <!--<style>-->
+      <!--.sortorder:after {-->
+        <!--content: "\25b2";-->
+      <!--}-->
+      <!--.sortorder.reverse:after {-->
+        <!--content: "\25bc";-->
+      <!--}-->
+    <!--</style>-->
     <meta charset="utf-8" />
     <!-- Latest compiled and minified CSS -->
     <link
@@ -17,22 +17,25 @@
       integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
       crossorigin="anonymous"
     />
-    <!-- Optional theme -->
+    <!--[> Optional theme <]-->
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
       integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="stylesheets/style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
     <script src="app.js"></script>
-    <title>Products Store</title>
+    <title>Estimcito</title>
   </head>
   <body ng-controller="mainCtrl">
+    <div class="logo">
+        <img class="logoImg" src="https://store.cloudflare.steamstatic.com/public/shared/images/header/logo_steam.svg?t=962016" alt="logo" />
+    </div>
     <div style="display: block; width: 100%">
       <div style="width: 85%; float: left; display: inline-block">
-        <h1>Estimcito</h1>
         <table class="table">
           <thead>
             <tr>
@@ -91,12 +94,31 @@
         <div style="width: 15%; float: right; display: inline-block">
         <table class="table">
             <thead>
-                <button class="btn btn-info" ng-click="toggleShowCategories()"> Categories </button>
+                <button class="btn btn-info" ng-click="toggleShowFilter(0, categories.lenght())"> Categories </button>
             <tbody>
-                <tr ng-repeat="cat in categories | limitTo: limCat">
-                    <td> <input type="checkbox" ng-model="cat.checked" ng-change="filterByCategory(cat)" /> {{cat.name}} </td>
+                <tr ng-repeat="cat in categories | limitTo: lims[0]">
+                    <td> <input type="checkbox" ng-model="cat.checked" ng-change="filterBy(0, cat)" /> {{cat.name}} </td>
                 </tr>
             </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <button class="btn btn-info" ng-click="toggleShowFilter(1, genres.lenght())"> Genres </button>
+            <tbody>
+                <tr ng-repeat="gen in genres | limitTo: lims[1]">
+                    <td> <input type="checkbox" ng-model="gen.checked" ng-change="filterBy(1, gen)" /> {{gen.name}} </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <button class="btn btn-info" ng-click="toggleShowFilter(2, tags.lenght())"> Etiquetas </button>
+            <tbody>
+                <tr ng-repeat="tag in tags | limitTo: lims[2]">
+                    <td> <input type="checkbox" ng-model="tag.checked" ng-change="filterBy(2, tag)" /> {{tag.name}} </td>
+                </tr>
+            </tbody>
+        </table>
       </div>
   </body>
 </html>

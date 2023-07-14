@@ -6,6 +6,16 @@ module.exports.gameSearch = async (req, res) => {
         if (req.query.name) {
             filters.name = { "$regex": "^"+req.query.name}
         }
+        if (req.query.categories && req.query.categories.length > 0) {
+            filters.categories = { "$all": req.query.categories }
+        }
+        if (req.query.genres && req.query.genres.length > 0) {
+            filters.genres = { "$all": req.query.genres }
+        }
+        if (req.query.tags && req.query.tags.length > 0) {
+            filters.tags = { "$all": req.query.tags }
+        }
+        console.log(filters);
         const game = await Game.find(filters).limit(200);
         res.status(200).json(game);
     } catch (error) {
@@ -42,6 +52,22 @@ module.exports.getCategories = async (req, res) => {
     try {
         const categories = await Game.distinct("categories");
         res.status(200).json(categories);
+    } catch (error) {
+        res.status(404).json(error);
+    }
+}
+module.exports.getGenres = async (req, res) => {
+    try {
+        const genres = await Game.distinct("genres");
+        res.status(200).json(genres);
+    } catch (error) {
+        res.status(404).json(error);
+    }
+}
+module.exports.getSteamSpyTags = async (req, res) => {
+    try {
+        const tags = await Game.distinct("steamspy_tags");
+        res.status(200).json(tags);
     } catch (error) {
         res.status(404).json(error);
     }

@@ -6,7 +6,7 @@ angular.module('app', [])
             $http({
                 method: 'GET',
                 url: '/search',
-                params: {"name": $scope.search, "category": $scope.category}
+                params: {"name": $scope.search, "categories": $scope.filters[0], "genres": $scope.filters[1], "tags": $scope.filters[2]}
             })
             .then(function(response) {
                 console.log("hola, todo ok", response);
@@ -27,25 +27,57 @@ angular.module('app', [])
                 console.log("hola, todo ok", response);
                 // each categories has a name and a boolean to know if it is selected
                 $scope.categories = response.data.map(function(category){
-                    return {name: category, checked: true};
+                    return {name: category, checked: false};
                 });
             }, function errorCallback(response) {
                 console.log("hola, todo mal!!", response);
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
             });
         };
+        var getGenres = function(){
+            $http({
+                method: 'GET',
+                url: '/genres'
+            })
+            .then(function(response) {
+                console.log("hola, todo ok", response);
+                // each categories has a name and a boolean to know if it is selected
+                $scope.genres = response.data.map(function(genre){
+                    return {name: genre, checked: false};
+                });
+            }, function errorCallback(response) {
+                console.log("hola, todo mal!!", response);
+            });
+        };
+        var getTags = function(){
+            $http({
+                method: 'GET',
+                url: '/steamspytags'
+            })
+            .then(function(response) {
+                console.log("hola, todo ok", response);
+                // each categories has a name and a boolean to know if it is selected
+                $scope.tags = response.data.map(function(tag){
+                    return {name: tag, checked: false};
+                });
+            }, function errorCallback(response) {
+                console.log("hola, todo mal!!", response);
+            });
+        };
+
         $scope.propertyName = 'name';
         $scope.reverse = true;
 
         $scope.options = ['appid', 'name', 'release_date', 'average_playtime', 'price'];
 
         $scope.search = '';
-        $scope.category = [];
+        $scope.filters = [[],[],[]];
 
-        $scope.limCat = 7;
+        $scope.lims = [7,7,7];
+
         refresh();
         getCategories();
+        getGenres();
+        getTags();
 
         $scope.sortBy = function(propertyName) {
             $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
@@ -54,11 +86,20 @@ angular.module('app', [])
         $scope.searchBy = function(){
             refresh();
         }
-        $scope.toggleShowCategories = function(){
-            if($scope.limCat == 7){
-                $scope.limCat = $scope.categories.length;
+        $scope.toggleShowFilter = function(li, newLim){
+            if($scope.lims[li] == 7){
+                $scope.lims[li] = newLim;
             }else{
-                $scope.limCat = 7;
+                $scope.lims[li] = 7;
+            }
+            refresh();
+        }
+        $scope.filterBy = function(fi, fil){
+            if (fil.checked){
+                $scope.filters[fi].push(fil.name);
+            }else{
+                var index = $scope.filters[fi].indexOf(fil.name);
+                $scope.filters[fi].splice(index, 1);
             }
             refresh();
         }
