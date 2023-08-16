@@ -16,19 +16,16 @@
         <!--integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"-->
         <!--crossorigin="anonymous"-->
         <!--/>-->
-        <link rel="stylesheet" href="stylesheets/style.css" />
+        <!--<link rel="stylesheet" href="stylesheets/style.css" />-->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
         <script src="app.js"></script>
         <title>Estimcito</title>
         <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/240px-Steam_icon_logo.svg.png">
     </head>
-    <body ng-controller="mainCtrl">
+    <body>
         <div class="logo">
-            <img class="logoImg"
-            src="https://store.cloudflare.steamstatic.com/public/shared/images/header/logo_steam.svg?t=962016"
-            alt="logo"
-            ng-click="gotoMain()"/>
+            <img class="logoImg" src="https://store.cloudflare.steamstatic.com/public/shared/images/header/logo_steam.svg?t=962016" alt="logo" />
         </div>
         <div ng-view></div>
     </body>
