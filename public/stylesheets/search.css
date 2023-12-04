@@ -1,0 +1,220 @@
+/*
+BACKGROUND: #121212
+HEADER: #18181c
+inner: #202020
+titles: #f5f5f5
+paragraphs: #9a9a9a
+buttons: #414141
+*/
+.search-page-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.contenedorJuegos {
+    width: 80%;
+    margin-right: 30px;
+}
+.contenedorFiltros {
+    width: 20%;
+    float: right;
+    display: inline-block;
+}
+
+/*-----------------------slider*/
+.filter-price-range {
+    border: 1px solid #333e4c;
+    border-radius: 5px 5px 0px 0px;
+    border-collapse: separate;
+    margin-bottom: 20px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.filter-price-range input[type=range] {
+    width: 85%;
+    margin: auto;
+    margin-bottom: 20px;
+    -webkit-appearance: none;
+}
+.filter-price-range input[type=range]:focus {
+    outline: none;
+}
+.filter-price-range input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 2px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 1px 1px 1px #002200;
+    background: #66c1f5;
+}
+.filter-price-range input[type=range]::-webkit-slider-thumb {
+    box-shadow: 3px 3px 3px #000000;
+    border: 1px solid #000000;
+    height: 18px;
+    width: 18px;
+    border-radius: 50px;
+    background: #ffffff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -8px;
+}
+.filter-price-range p {
+    background-color: #333e4c;
+    padding: 5px;
+    margin-top: 0;
+}
+.filter-price-range p1 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+/*-----------------------slider*/
+
+
+/*-----------------------tabla filtros*/
+.tablita {
+    border: 1px solid #333e4c;
+    border-radius: 0px 0px 5px 5px;
+    border-collapse: separate;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.filter {
+    background-color: #1b2838;
+    /*color: white;*/
+    /*padding: 50px;*/
+}
+
+.filter:hover {
+    background-color: #333e4c;
+  color: white;
+}
+.selected {
+  background: linear-gradient(to right, #64baed, #4581a4);
+  color: white;
+}
+.filterCont {
+    padding-left: 10px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+.filter_btn {
+    background-color: #333e4c;
+    color: white;
+    border: 1px solid #333e4c;
+    border-radius: 5px 5px 0px 0px;
+    padding: 5px;
+    width: 100%;
+    text-align: left;
+}
+.filter_btn:hover {
+    cursor: pointer;
+    box-shadow: 1px 1px 5px #323e4c;
+  background: linear-gradient(to right, #64baed, #4581a4);
+  color: white;
+}
+/*-----------------------tabla filtros*/
+
+/*-----------------------cabecera tabla juegos*/
+.table-head {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 10px #000000;
+    padding: 5px 0px;
+}
+.btn-reverse {
+    background-color: #223a4c;
+    color: white;
+    border: 1px solid #333e4c;
+    border-radius: 3px;
+    padding: 5px;
+    margin-right: 5px;
+}
+.btn-reverse:hover {
+    cursor: pointer;
+    box-shadow: 1px 1px 5px #323e4c;
+  background: linear-gradient(to right, #64baed, #4581a4);
+  color: white;
+}
+.form-search {
+    width: 40%;
+    padding: 3px;
+    border-radius: 3px;
+    border: 1px solid #333e4c;
+    background-color: #223a4c;
+    color: white;
+    margin-left: 5px;
+}
+.btn-search {
+    background-color: #223a4c;
+    color: white;
+    border: 1px solid #333e4c;
+    border-radius: 3px;
+    align: left;
+    margin-left: 5px;
+    margin-right:auto;
+    padding:5px;
+}
+.btn-search:hover {
+    cursor: pointer;
+    box-shadow: 1px 1px 5px #323e4c;
+  background: linear-gradient(to right, #64baed, #4581a4);
+  color: white;
+}
+.form-property {
+    width: 20%;
+    padding: 3px;
+    border-radius: 3px;
+    border: 1px solid #333e4c;
+    background-color: #223a4c;
+    color: white;
+}
+.form-property:hover {
+    cursor: pointer;
+    box-shadow: 1px 1px 5px #323e4c;
+    background: linear-gradient(to right, #64baed, #4581a4);
+    color: white;
+}
+/*-----------------------cabecera tabla juegos*/
+
+/*-----------------------tabla juegos*/
+.tabla_juegos {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    width: 100%;
+    table-layout: fixed;
+}
+.tabla_juegos tbody td,tr {
+    background-color: #202020;
+    /*width: 100%;*/
+    /*display: flex;*/
+    /*justify-content: flex-end;*/
+    /*padding-right: 5px;*/
+    /*border-top: 1px solid #333e4c;*/
+    /*border-bottom: 1px solid #333e4c;*/
+    /*border: 1px solid #333e4c;*/
+}
+.tabla_juegos tbody tr:hover{
+    transform: scale(1);
+    box-shadow: 1px 1px 5px #323e4c;
+    cursor: pointer;
+}
+.tabla_juegos tbody tr:hover td{
+    background-color: #101822;
+}
+.game-logo {
+    width: 120px;
+}
+.game-name {
+    padding-left: 10px;
+}
+.game-release_date {
+    width: 6em;
+}
+.game-price {
+    width: 6em;
+    text-align: right;
+    padding-right: 1em;
+}

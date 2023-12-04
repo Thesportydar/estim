@@ -16,7 +16,10 @@
         <!--integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"-->
         <!--crossorigin="anonymous"-->
         <!--/>-->
-        <link rel="stylesheet" href="stylesheets/style.css" />
+        <link rel="stylesheet" href="stylesheets/index.css" />
+        <link rel="stylesheet" href="stylesheets/main.css" />
+        <link rel="stylesheet" href="stylesheets/search.css" />
+        <link rel="stylesheet" href="stylesheets/game.css" />
         <link href="/node_modules/angular-carousel/dist/angular-carousel.css" rel="stylesheet" type="text/css" />
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
@@ -25,15 +28,23 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-sanitize.js"></script>
         <script src="app.js"></script>
         <title>Estimcito</title>
-        <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/240px-Steam_icon_logo.svg.png">
+        <link rel="shortcut icon" href="imgs/estim_logo.png">
     </head>
-    <body ng-controller="mainCtrl">
-        <div class="logo">
-            <img class="logoImg"
-            src="https://store.cloudflare.steamstatic.com/public/shared/images/header/logo_steam.svg?t=962016"
-            alt="logo"
-            ng-click="gotoMain()"/>
+    <body ng-controller="indexCtrl">
+        <div class="estim-header">
+            <div class="logo">
+                <img class="logoImg"
+                src="imgs/estim_logo.png"
+                alt="logo"
+                ng-click="gotoMain()"/>
+            </div>
+            <div class="explorar" ng-click="gotoSearch()"><h1>EXPLORAR</h1></div>
+            <div><h1>DESTACADOS</h1></div>
+            <div><h1>CATEGORIAS</h1></div>
+            <div><h1>GENEROS</h1></div>
         </div>
-        <div ng-view></div>
+        <div class="contenedor">
+            <div ng-view></div>
+        </div>
     </body>
 </html>

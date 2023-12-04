@@ -5,6 +5,10 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
                 templateUrl: "main.html",
                 controller: "mainCtrl"
             })
+            .when("/search", {
+              templateUrl: "search.html",
+              controller: "searchCtrl"
+            })
             .when("/game/:game", {
                 templateUrl: "game.html",
                 controller: "gameCtrl"
@@ -13,7 +17,17 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
                 redirectTo: "/"
             });
         }])
+    .controller("indexCtrl", function ($scope, $http, $location) {
+        $scope.gotoMain = function () {
+            $location.path("/");
+        };
+        $scope.gotoSearch = function () {
+            $location.path("/search");
+        };
+    })
     .controller("mainCtrl", function ($scope, $http, $location) {
+    })
+    .controller("searchCtrl", function ($scope, $http, $location) {
   console.log("$http", $http);
   //Levanta los datos cuando se refresca la pagina
   var refresh = function () {
@@ -115,9 +129,6 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
     };
 $scope.gotoGame = function (appid) {
     $location.path("/game/" + appid);
-};
-$scope.gotoMain = function () {
-    $location.path("/");
 };
 })
 .controller("gameCtrl", function ($scope, $http, $routeParams, $sce) {
