@@ -1,4 +1,4 @@
-angular.module("app",["ngRoute"])
+angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
         .config(["$routeProvider", function ($routeProvider) {
             $routeProvider
             .when("/", {
@@ -63,7 +63,7 @@ angular.module("app",["ngRoute"])
             console.log("hola, todo mal!!", response);
         }
     );
-    };
+  };
 
 
   $scope.propertyName = "name";
@@ -120,22 +120,64 @@ $scope.gotoMain = function () {
     $location.path("/");
 };
 })
-.controller("gameCtrl", function ($scope, $http, $routeParams) {
-  var refresh = function () {
-    $http({
-      method: "GET",
-      url: "/game/" + $routeParams.game,
-    }).then(
-      function (response) {
-        console.log("hola, todo ok", response);
-        $scope.game = response.data;
-      },
-      function errorCallback(response) {
-        console.log("hola, todo mal!!", response);
-      }
-    );
-  };
+.controller("gameCtrl", function ($scope, $http, $routeParams, $sce) {
+    var refresh = function () {
+        $http({
+          method: "GET",
+          url: "/game/" + $routeParams.game,
+        }).then(
+            function (response) {
+                console.log("hola, todo ok", response);
+                $scope.game = response.data;
+            },
+            function errorCallback(response) {
+                console.log("hola, todo mal!!", response);
+            }
+        );
+    };
     refresh();
+    $scope.carouselIndex = 0;
+    $scope.showMoreReq = false;
+    $scope.showMoreDesc = false;
+    $scope.pcReq =true;
+    $scope.macReq =false;
+    $scope.linuxReq =false;
+
+    $scope.updateCarouselIndex = function(index) {
+      $scope.carouselIndex = index; // Actualiza el índice del carrusel
+    };
+
+    $scope.trustedHtml = function(html) {
+      return $sce.trustAsHtml(html);
+    };
+
+  $scope.toggleShowMoreReq = function() {
+      $scope.showMoreReq = !$scope.showMoreReq;
+      $scope.$apply();
+  };
+
+  $scope.toggleShowMoreDesc = function() {
+    $scope.showMoreDesc = !$scope.showMoreDesc;
+    $scope.$apply();
+  };
+
+  $scope.showPcReq = function() {
+    $scope.pcReq = true;
+    $scope.macReq = false;
+    $scope.linuxReq = false;
+  };
+
+  $scope.showMacReq = function() {
+    $scope.pcReq = false;
+    $scope.macReq = true;
+    $scope.linuxReq = false;
+  };
+
+  $scope.showLinuxReq = function() {
+    $scope.pcReq = false;
+    $scope.macReq = false;
+    $scope.linuxReq = true;
+  };
 });
 
 function changeBackground(checkbox) {
