@@ -17,15 +17,13 @@ buttons: #414141
 }
 .contenedorFiltros {
     width: 20%;
-    float: right;
-    display: inline-block;
+    margin-top: 20px;
 }
 
 /*-----------------------slider*/
 .filter-price-range {
-    border: 1px solid #333e4c;
-    border-radius: 5px 5px 0px 0px;
-    border-collapse: separate;
+    border: none;
+    background-color: #202020;
     margin-bottom: 20px;
     display:flex;
     flex-direction: column;
@@ -60,7 +58,6 @@ buttons: #414141
     margin-top: -8px;
 }
 .filter-price-range p {
-    background-color: #333e4c;
     padding: 5px;
     margin-top: 0;
 }
@@ -73,64 +70,112 @@ buttons: #414141
 
 /*-----------------------tabla filtros*/
 .tablita {
-    border: 1px solid #333e4c;
-    border-radius: 0px 0px 5px 5px;
-    border-collapse: separate;
+    border: none;
     margin-bottom: 20px;
     width: 100%;
+    border-spacing: 0;
 }
 
 .filter {
-    background-color: #1b2838;
-    /*color: white;*/
-    /*padding: 50px;*/
+    background-color: #202020;
+    color: #9a9a9a;
 }
 
 .filter:hover {
-    background-color: #333e4c;
-  color: white;
+    background-color: #414141;
+    color: #64baed;
 }
+
 .filterCont.selected {
   background: linear-gradient(to right, #64baed, #4581a4);
-  color: white;
+  color: #f5f5f5;
 }
+
 .filterCont {
-    padding-left: 10px;
-    padding-bottom: 3px;
-    padding-top: 3px;
+    padding: 3px 5px;
 }
 .filter_btn {
-    background-color: #333e4c;
-    color: white;
-    border: 1px solid #333e4c;
-    border-radius: 5px 5px 0px 0px;
-    padding: 5px;
+    background-color: #414141;
+    color: #f5f5f5;
+    border: none;
+    padding: 15px;
     width: 100%;
     text-align: left;
 }
 .filter_btn:hover {
     cursor: pointer;
-    box-shadow: 1px 1px 5px #323e4c;
-  background: linear-gradient(to right, #64baed, #4581a4);
-  color: white;
+    background: linear-gradient(to right, #64baed, #4581a4);
 }
-/*-----------------------tabla filtros*/
+/*----------------------- FIN tabla filtros*/
 
 /*-----------------------cabecera tabla juegos*/
 .table-head {
     display: flex;
+    justify-content: space-between;
     width: 100%;
-    margin-bottom: 10px;
-    box-shadow: 0 1px 10px #000000;
-    padding: 5px 0px;
+    margin: 20px 0;
 }
-.btn-reverse {
-    background-color: #223a4c;
-    color: white;
-    border: 1px solid #333e4c;
-    border-radius: 3px;
+.table-head-search {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    height: 100%;
+}
+
+.form-search {
+    width: 70%;
+    height: 100%;
     padding: 5px;
-    margin-right: 5px;
+    background-color: #202020;
+    color: #f5f5f5;
+    border: none;
+    font-size: 20px;
+}
+
+.btn-search {
+    background-color: #202020;
+    color: #9a9a9a;
+    border: none;
+    margin-left: 10px;
+    padding:5px;
+}
+
+.btn-search:hover {
+    cursor: pointer;
+    background: linear-gradient(to right, #64baed, #4581a4);
+    color: #f5f5f5;
+}
+
+.table-head-sort {
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-property {
+    width: 40%;
+    padding: 5px;
+    background-color: #202020;
+    color: #9a9a9a;
+    border: none;
+    margin-right:10px;
+}
+.form-property:hover {
+    cursor: pointer;
+    background: linear-gradient(to right, #64baed, #4581a4);
+    color: #f5f5f5;
+}
+
+.form-property:focus {
+    background-color: #202020;
+}
+
+.btn-reverse {
+    background-color: #202020;
+    color: #9a9a9a;
+    padding: 5px;
+    width: 10%;
+    border: none;
 }
 .btn-reverse:hover {
     cursor: pointer;
@@ -138,83 +183,129 @@ buttons: #414141
   background: linear-gradient(to right, #64baed, #4581a4);
   color: white;
 }
-.form-search {
-    width: 40%;
-    padding: 3px;
-    border-radius: 3px;
-    border: 1px solid #333e4c;
-    background-color: #223a4c;
-    color: white;
-    margin-left: 5px;
-}
-.btn-search {
-    background-color: #223a4c;
-    color: white;
-    border: 1px solid #333e4c;
-    border-radius: 3px;
-    align: left;
-    margin-left: 5px;
-    margin-right:auto;
-    padding:5px;
-}
-.btn-search:hover {
-    cursor: pointer;
-    box-shadow: 1px 1px 5px #323e4c;
-  background: linear-gradient(to right, #64baed, #4581a4);
-  color: white;
-}
-.form-property {
-    width: 20%;
-    padding: 3px;
-    border-radius: 3px;
-    border: 1px solid #333e4c;
-    background-color: #223a4c;
-    color: white;
-}
-.form-property:hover {
-    cursor: pointer;
-    box-shadow: 1px 1px 5px #323e4c;
-    background: linear-gradient(to right, #64baed, #4581a4);
-    color: white;
-}
+
 /*-----------------------cabecera tabla juegos*/
 
 /*-----------------------tabla juegos*/
 .tabla_juegos {
-    border-collapse: separate;
     border-spacing: 0 10px;
     width: 100%;
-    table-layout: fixed;
 }
-.tabla_juegos tbody td,tr {
+
+.tabla_juegos tbody tr {
     background-color: #202020;
-    /*width: 100%;*/
-    /*display: flex;*/
-    /*justify-content: flex-end;*/
-    /*padding-right: 5px;*/
-    /*border-top: 1px solid #333e4c;*/
-    /*border-bottom: 1px solid #333e4c;*/
-    /*border: 1px solid #333e4c;*/
+    box-shadow: 0 1px 10px #000000;
+    display: flex;
+    justify-content: space-between;
+    height: 140px;
+    margin-bottom: 10px;
+    width: 100%;
 }
+
 .tabla_juegos tbody tr:hover{
-    transform: scale(1);
-    box-shadow: 1px 1px 5px #323e4c;
+    /*transform: scale(1.03, 1.2);*/
     cursor: pointer;
+    background-color: #414141;
 }
-.tabla_juegos tbody tr:hover td{
-    background-color: #101822;
+
+.td-game-info {
+    display: flex;
+    width: 75%;
 }
-.game-logo {
-    width: 120px;
+
+.td-game-info img { 
+    width: 30%;
+    height: 100%;
 }
-.game-name {
-    padding-left: 10px;
+
+.td-game-info-summary {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    width: 70%;
+    box-sizing: border-box;
 }
-.game-release_date {
-    width: 6em;
+
+.td-game-info-summary h2{
+    color: #f5f5f5;
+    font-size: 24px;
+    font-weight: normal;
+    margin: 0;
 }
-.game-price {
-    width: 6em;
-    text-align: right;
-    padding-right: 1em;
+
+.td-game-info-tags {
+    display: flex;
+    flex-direction: row;
+}
+
+.td-game-info-tags p {
+    box-shadow: 0 1px 10px #000000;
+    margin: 0 10px 0 0;
+    background-color: #181818;
+    padding: 5px;
+}
+
+.td-game-info-tags p:hover {
+    color: #64baed;
+}
+
+.td-game-info-release-date {
+    margin:0;
+}
+
+.td-game-info-reviews {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.td-game-info-reviews p {
+    margin: 0 10px 0 0;
+}
+
+.td-gotoGame-container{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 25%;
+    padding:10px;
+}
+
+.td-gotoGame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+    box-shadow: 0 1px 10px #000000;
+}
+
+.td-gotoGame h2,
+.td-gotoGame h3 {
+    color: #f5f5f5;
+    font-size: 20px;
+    margin:0;
+    padding:0;
+    width: 50%;
+    height: 100%;
+    background-color: #181818;
+    display: flex; /* Hace que .td-gotoGame h2 sea un contenedor flex */
+    justify-content: center; /* Centra el texto horizontalmente */
+    align-items: center;
+}
+
+.btn-gotoGame {
+    height: 100%;
+    width: 50%;
+    cursor: pointer;
+    background: linear-gradient(to right, #64baed, #4581a4);
+    color: #f5f5f5;
+    font-size: 20px;
+    border: none;
+    opacity: 0.9;
+}
+
+.btn-gotoGame:hover {
+    opacity: 1;
 }

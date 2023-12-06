@@ -74,13 +74,23 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
   var refresh = function () {
     console.log("filters", $scope.filters);
     if ($location.search().category) {
-        console.log("entro al if");
         for (let i = 0; i < $scope.categories.length; i++) {
             if ($scope.categories[i].name == $location.search().category) {
-              console.log("entro al if2");
                 if (!$scope.categories[i].checked) {
                     $scope.categories[i].checked = true;
                     $scope.filters[0].push($scope.categories[i].name);
+                }
+                break;
+            }
+        }
+    };
+
+    if ($location.search().genre) {
+        for (let i = 0; i < $scope.genres.length; i++) {
+            if ($scope.genres[i].name == $location.search().genre) {
+                if (!$scope.genres[i].checked) {
+                    $scope.genres[i].checked = true;
+                    $scope.filters[1].push($scope.genres[i].name);
                 }
                 break;
             }

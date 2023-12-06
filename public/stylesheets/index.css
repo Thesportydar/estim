@@ -76,7 +76,8 @@ body {
     margin:0;
 }
 
-.estim-header h1.hovered, h1:hover {
+.estim-header h1.hovered,
+.estim-header h1:hover {
     cursor: pointer;
     color: #64baed;
     background-color: #414141;

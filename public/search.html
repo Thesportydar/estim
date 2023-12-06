@@ -1,42 +1,54 @@
 <div class="search-page-container">
     <div class="contenedorJuegos">
         <div class="table-head">
-            <input
-            class="form-search"
-            type="text"
-            ng-model="search"
-            placeholder="Escribe el nombre del juego"
-            />
-            <button class="btn-search" ng-click="searchBy()">
-                Search
-            </button>
-            <select
-                class="form-property"
-                ng-model="propertyName"
-                ng-options="option for option in options">
-            </select>
-            <button class="btn-reverse" ng-click="reverse = !reverse">
-                <!--alter between upper arrow and lower arrow-->
-                <span ng-show="!reverse">▲</span>
-                <span ng-show="reverse">▼</span>
-            </button>
+            <div class="table-head-search">
+                <input
+                class="form-search"
+                type="text"
+                ng-model="search"
+                placeholder="Escribe el nombre del juego"
+                />
+                <button class="btn-search" ng-click="searchBy()">Search</button>
+            </div>
+            <div class="table-head-sort">
+                <select
+                    class="form-property"
+                    ng-model="propertyName"
+                    ng-options="option for option in options">
+                </select>
+                <button class="btn-reverse" ng-click="reverse = !reverse">
+                    <!--alter between upper arrow and lower arrow-->
+                    <span ng-show="!reverse">▲</span>
+                    <span ng-show="reverse">▼</span>
+                </button>
+            </div>
         </div>
         <table class="tabla_juegos">
             <tbody>
                 <tr ng-click="gotoGame(gam.appid)" ng-repeat="gam in games | orderBy:propertyName:reverse">
-                    <td class="game-logo">
-                        <img
-                        ng-src="{{gam.header_image}}"
-                        alt="{{gam.name}}"
-                        width="120"
-                        height="48"
-                        />
+                    <td class="td-game-info">
+                        <img ng-src="{{gam.header_image}}" alt="{{gam.name}}" />
+                        <div class="td-game-info-summary">
+                            <h2>{{gam.name | uppercase}}</h2>
+                            <div class="td-game-info-tags">
+                                <p ng-repeat="tag in gam.steamspy_tags | limitTo: 5">{{tag}}</p>
+                            </div>
+                            <p class="td-game-info-release-date">{{gam.release_date | date:"dd MMM yyyy"}}</p>
+                            <div class="td-game-info-reviews">
+                                <p>{{gam.total_ratings}} reseñas de usuarios</p>
+                                <p ng-if="gam.positive_ratings > gam.negative_ratings">Mayormente positivas</p>
+                                <p ng-if="gam.positive_ratings < gam.negative_ratings">Mayormente negativas</p>
+                            </div>
+                        </div>
                     </td>
-                    <!--<td>{{gam.appid}}</td>-->
-                    <td class="game-name">{{gam.name | uppercase}}</td>
-                    <td class="game-release_date">{{gam.release_date | date:"dd MMM yyyy"}}</td>
-                    <!--<td class="game-average_playtime">{{gam.average_playtime}}</td>-->
-                    <td class="game-price">{{gam.price | currency:"$" }}</td>
+                    <td class="td-gotoGame-container">
+                        <div class="td-gotoGame">
+                            <h2 ng-if="gam.price > 0">{{gam.price | currency:"US$" }}</h2>
+                            <h3 ng-if="gam.price === 0.0">Free to Play</h3>
+                            <button ng-if="gam.price > 0" class="btn-gotoGame">Comprar</button>
+                            <button ng-if="gam.price === 0" class="btn-gotoGame">Jugar Gratis</button>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -66,7 +78,10 @@
             </thead>
             <tbody>
                 <tr class="filter" ng-repeat="gen in genres | limitTo: lims[1]">
-                    <td> <input type="checkbox" onchange="changeBackground(this)" ng-model="gen.checked" ng-change="filterBy(1, gen)" /> {{gen.name}} </td>
+                    <td class="filterCont" ng-class="{ 'selected': gen.checked }">
+                        <input type="checkbox" ng-model="gen.checked" ng-change="filterBy(1, gen)" />
+                        {{gen.name}}
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -76,7 +91,10 @@
             </thead>
             <tbody>
                 <tr class="filter" ng-repeat="tag in tags | limitTo: lims[2]">
-                    <td> <input type="checkbox" onchange="changeBackground(this)" ng-model="tag.checked" ng-change="filterBy(2, tag)" /> {{tag.name}} </td>
+                    <td class="filterCont" ng-class="{ 'selected': tag.checked }">
+                        <input type="checkbox" ng-model="tag.checked" ng-change="filterBy(2, tag)" />
+                        {{tag.name}}
+                    </td>
                 </tr>
             </tbody>
         </table>
