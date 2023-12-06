@@ -53,7 +53,10 @@
             </thead>
             <tbody>
                 <tr class="filter" ng-repeat="cat in categories | limitTo: lims[0]">
-                    <td class="filterCont"> <input type="checkbox" onchange="changeBackground(this)" ng-model="cat.checked" ng-change="filterBy(0, cat)" /> {{cat.name}} </td>
+                    <td class="filterCont" ng-class="{ 'selected': cat.checked }">
+                        <input type="checkbox" ng-model="cat.checked" ng-change="filterBy(0, cat)" />
+                        {{cat.name}}
+                    </td>
                 </tr>
             </tbody>
         </table>

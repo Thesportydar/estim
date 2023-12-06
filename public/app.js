@@ -18,12 +18,53 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
             });
         }])
     .controller("indexCtrl", function ($scope, $http, $location) {
+        var refresh = function () {
+            $http({
+                method: "GET",
+                url: "/categories",
+            }).then(
+                function (response) {
+                    console.log("hola, todo ok", response);
+                    $scope.categories = response.data;
+                },
+                function errorCallback(response) {
+                    console.log("hola, todo mal!!", response);
+                }
+            );
+            $http({
+                method: "GET",
+                url: "/genres",
+            }).then(
+                function (response) {
+                    console.log("hola, todo ok", response);
+                    $scope.genres = response.data;
+                },
+                function errorCallback(response) {
+                    console.log("hola, todo mal!!", response);
+                }
+            );
+        }
+        
         $scope.gotoMain = function () {
-            $location.path("/");
+            $location.path("/").search({});
         };
+        
         $scope.gotoSearch = function () {
-            $location.path("/search");
+            $location.path("/search").search({});
         };
+        
+        $scope.gotoCategory = function (category) {
+            $location.path("/search").search("category", category);
+        };
+
+        $scope.gotoGenre = function (genre) {
+            $location.path("/search").search("genre", genre);
+        };
+        
+        $scope.showCatDropdown = false;
+        $scope.showGenreDropdown = false;
+        $scope.showFeaturedDropdown = false;
+        refresh();
     })
     .controller("mainCtrl", function ($scope, $http, $location) {
     })
@@ -31,6 +72,21 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
   console.log("$http", $http);
   //Levanta los datos cuando se refresca la pagina
   var refresh = function () {
+    console.log("filters", $scope.filters);
+    if ($location.search().category) {
+        console.log("entro al if");
+        for (let i = 0; i < $scope.categories.length; i++) {
+            if ($scope.categories[i].name == $location.search().category) {
+              console.log("entro al if2");
+                if (!$scope.categories[i].checked) {
+                    $scope.categories[i].checked = true;
+                    $scope.filters[0].push($scope.categories[i].name);
+                }
+                break;
+            }
+        }
+    };
+
     $http({
       method: "GET",
       url: "/search",
@@ -72,6 +128,9 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
                 return { name: category, checked: false };
             });
             $scope.maxPrice = response.data.maxPrice;
+            $scope.priceRange = $scope.maxPrice;
+            console.log("refresh1normal");
+            //refresh();
         },
         function errorCallback(response) {
             console.log("hola, todo mal!!", response);
@@ -95,9 +154,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
 
   $scope.lims = [7, 7, 7];
 
-  refresh();
   initSearch();
-  $scope.priceRange = $scope.maxPrice;
 
   $scope.sortBy = function (propertyName) {
     $scope.reverse =
@@ -105,6 +162,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
     $scope.propertyName = propertyName;
   };
   $scope.searchBy = function () {
+    console.log("refresh2");
     refresh();
   };
   $scope.toggleShowFilter = function (li, newLim) {
@@ -113,6 +171,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
     } else {
       $scope.lims[li] = 7;
     }
+    console.log("refresh3");
     refresh();
   };
   $scope.filterBy = function (fi, fil) {
@@ -122,9 +181,11 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
       var index = $scope.filters[fi].indexOf(fil.name);
       $scope.filters[fi].splice(index, 1);
     }
+    console.log("refresh4");
     refresh();
   };
     $scope.filterByPrice = function () {
+        console.log("refresh5");
         refresh();
     };
 $scope.gotoGame = function (appid) {
@@ -190,14 +251,3 @@ $scope.gotoGame = function (appid) {
     $scope.linuxReq = true;
   };
 });
-
-function changeBackground(checkbox) {
-    let td = checkbox.parentNode.parentNode;
-    if (checkbox.checked) {
-        td.classList.remove("filter");
-        td.classList.add("selected");
-    } else {
-        td.classList.add("filter");
-        td.classList.remove("selected");
-    }
-};

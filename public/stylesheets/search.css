@@ -90,7 +90,7 @@ buttons: #414141
     background-color: #333e4c;
   color: white;
 }
-.selected {
+.filterCont.selected {
   background: linear-gradient(to right, #64baed, #4581a4);
   color: white;
 }
