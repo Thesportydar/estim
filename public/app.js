@@ -25,7 +25,59 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
             $location.path("/search");
         };
     })
-    .controller("mainCtrl", function ($scope, $http, $location) {
+    .controller("mainCtrl", function ($scope, $http, $location, $interval) {
+      $scope.featuredGames = [];
+      $scope.free_to_play = [];
+      $scope.currentIndex = 0;
+
+      $http({
+          method: "GET",
+          url: "/initMain",
+          params: {}
+      }).then(function (response) {
+          $scope.featuredGames = response.data.recomendacion;
+          $scope.free_to_play = response.data.free_to_play;
+      }, function errorCallback(response) {
+          console.log("Error al cargar datos", response);
+      });
+
+      var intervalPromise;
+      var autoScrollInterval = 5000; // 5 segundos
+
+      function startAutoScroll() {
+          intervalPromise = $interval(function () {
+              $scope.currentIndex = ($scope.currentIndex + 1) % $scope.featuredGames.length;
+              scrollToCurrentGame();
+          }, autoScrollInterval);
+      }
+
+      function stopAutoScroll() {
+          $interval.cancel(intervalPromise);
+      }
+
+      function scrollToCurrentGame() {
+          var thumbnailHeight = 80; // Ajusta este valor según la altura de tus miniaturas
+          var container = document.querySelector('.main-thumbnails');
+          container.scrollTop = $scope.currentIndex * thumbnailHeight;
+      }
+
+      $scope.changeGame = function (index) {
+          $scope.currentIndex = index;
+          scrollToCurrentGame();
+
+          // Marcar el juego seleccionado con la clase 'active'
+          angular.forEach($scope.featuredGames, function (game, i) {
+            game.active = i === index;
+          });
+      };
+
+      // Iniciar el desplazamiento automático cuando se carga la página
+      startAutoScroll();
+
+      // Detener el desplazamiento automático cuando se destruye el controlador
+      $scope.$on('$destroy', function () {
+          stopAutoScroll();
+      });
     })
     .controller("searchCtrl", function ($scope, $http, $location) {
   console.log("$http", $http);

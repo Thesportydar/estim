@@ -13,6 +13,11 @@ const gameSchema = new Schema({
         genres: [String],
         steamspy_tags: [String],
         average_playtime: Number,
+        positive_ratings: Number,
+        negative_ratings: Number,
+        total_ratings: Number,
+        diff_ratings: Number,
+        owners: Number,
         price: Number
     });
 

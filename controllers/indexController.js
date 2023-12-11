@@ -28,24 +28,30 @@ module.exports.gameSearch = async (req, res) => {
 
 module.exports.readIndex = async (req, res) => {
     try {
-        const mostPlayed = await Game.find().sort({ average_playtime: -1 }).limit(10);
-        const recentlyReleased = await Game.find().sort({ release_date: -1 }).limit(10);
+        const projection = 'appid name header_image short_description price'
 
-        const mostUbisoftGamesPlayed = await Game.find({ publisher: "Ubisoft" }).sort({ average_playtime: -1 }).limit(10);
-        const mostValveGamesPlayed = await Game.find({ publisher: "Valve" }).sort({ average_playtime: -1 }).limit(10);
+        const mostPlayed = await Game.find({ price: { $gt: 0 }, release_date: { $gte: new Date('2015-01-01') } }).sort({ average_playtime: -1 }).limit(5).select(projection);
+        const mostLikes = await Game.find({ price: { $gt: 0 }, release_date: { $gte: new Date('2015-01-01') } }).sort({ diff_ratings: -1 }).limit(5).select(projection);
+        const mostSold = await Game.find({ price: { $gt: 0 }, release_date: { $gte: new Date('2015-01-01') } }).sort({ owners: -1 }).limit(5).select(projection);
 
-        const mostActionPlayed = await Game.find({ genres: "Action" }).sort({ average_playtime: -1 }).limit(10);
-        const mostSportsPlayed = await Game.find({ genres: "Sports" }).sort({ average_playtime: -1 }).limit(10);
+        // Concatenar y eliminar duplicados por appid
+        const uniqueAppIds = new Set();
+        const recomendacion = [...mostPlayed, ...mostLikes, ...mostSold].filter(game => {
+            if (!uniqueAppIds.has(game.appid)) {
+                uniqueAppIds.add(game.appid);
+                return true;
+            }
+            return false;
+        });
 
-        const json = {
-            mostPlayed,
-            recentlyReleased,
-            mostUbisoftGamesPlayed,
-            mostValveGamesPlayed,
-            mostActionPlayed,
-            mostSportsPlayed
+        const free_to_play = await Game.find({ price: { $eq: 0 } }).sort({ average_playtime: -1 }).limit(10).select(projection);
+
+        const rta = {
+            recomendacion,
+            free_to_play
         }
-        res.status(200).json(json);
+
+        res.status(200).json(rta);
     } catch (error) {
         res.status(404).json(error);
     }

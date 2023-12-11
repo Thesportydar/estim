@@ -1,0 +1,61 @@
+<div class="main-container" ng-controller="mainCtrl">
+    <h1>Destacados y Recomendados</h1>
+    <div class="main-game-body-container">
+        <div class="main-media">
+            <div class="main-carousel-container">
+                <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-buffered rn-carousel-auto-slide class="main-carousel-media">
+                    <div class="main-game-large" ng-show="$index == currentIndex" ng-repeat="featuredGame in featuredGames">
+                        <h1>{{featuredGame.name}}</h1>
+                        <a href="/#!/game/{{featuredGame.appid}}">
+                            <img ng-src="{{featuredGame.header_image}}" alt="{{featuredGame.name}}"/>
+                        </a>
+                        <p class="short-description">{{featuredGame.short_description}}</p>
+                        <p class="price">{{featuredGame.price | currency:"$"}}</p>
+                    </div>
+                </ul>
+            </div>
+            <div class="main-thumbnails">
+                <div class="main-thumbnail" ng-repeat="featuredGame in featuredGames" ng-class="{ 'active': $index == currentIndex }">
+                    <h2>{{featuredGame.name}}</h2>
+                    <img ng-src="{{featuredGame.header_image}}" alt="{{featuredGame.name}}" ng-click="changeGame($index)" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1>Editores Populares</h1>
+    <div class="popular-editors-section">
+        <div class="image-container">
+            <img src="https://avatars.akamai.steamstatic.com/7ba781b5f0b8a99d4cc0b0b0dcaa22df73db7db2_full.jpg" alt="Valve">
+            <p class="image-title">Valve</p>
+        </div>
+        <div class="image-container">
+            <img src="https://avatars.akamai.steamstatic.com/97ea9619ba3076b8549c1484bef9308a67f0c64d_full.jpg" alt="BANDAI NAMCO">
+            <p class="image-title">BANDAI NAMCO</p>
+        </div>
+        <div class="image-container">
+            <img src="https://avatars.akamai.steamstatic.com/6b62a91eb5a093261d8831d1908717bab0d687e9_full.jpg" alt="CAPCOM">
+            <p class="image-title">CAPCOM</p>
+        </div>
+        <div class="image-container">
+            <img src="https://avatars.akamai.steamstatic.com/2b2486ae5a70d69c55f020ce8384d04646ddba4e_full.jpg" alt="Ubisoft">
+            <p class="image-title">Ubisoft</p>
+        </div>
+        <div class="image-container">
+            <img src="https://avatars.akamai.steamstatic.com/53b80fbb1f3c5e6833a5587177ee4bdbe8f52030_full.jpg" alt="2K">
+            <p class="image-title">2K</p>
+        </div>
+        <div class="image-container">
+            <img src="https://avatars.akamai.steamstatic.com/d83a1786f23929deb5f20326f128bbc13a9a1e85_full.jpg" alt="Rockstar Games">
+            <p class="image-title">Rockstar Games</p>
+        </div>
+    </div>
+    <h1>Juegos Gratuitos</h1>
+    <div class="free-to-play-container">
+        <div class="main-game-item" ng-repeat="mainGame in free_to_play">
+            <a href="/#!/game/{{mainGame.appid}}">
+                <img ng-src="{{mainGame.header_image}}" alt="{{mainGame.name}}" />
+            </a>
+            <p class="main-game-title">{{mainGame.name}}</p>
+        </div>
+    </div>
+</div>

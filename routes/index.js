@@ -11,4 +11,5 @@ router.get('/initSearch', indexController.initSearch);
 //router.get('/', function(req, res, next) {
   //res.render('index', { title: 'Express' });
 //});
+router.get('/initMain', indexController.readIndex);
 module.exports = router;
