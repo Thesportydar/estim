@@ -95,3 +95,21 @@ module.exports.initSearch = async (req, res) => {
         res.status(404).json(error);
     }
 }
+
+module.exports.getCategories = async (req, res) => {
+    try {
+        const categories = await getCategories();
+        res.status(200).json(categories);
+    } catch (error) {
+        res.status(404).json(error);
+    }
+}
+
+module.exports.getGenres = async (req, res) => {
+    try {
+        const genres = await getGenres();
+        res.status(200).json(genres);
+    } catch (error) {
+        res.status(404).json(error);
+    }
+}

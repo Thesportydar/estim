@@ -4,8 +4,8 @@ var indexController = require('../controllers/indexController');
 
 //router.get('/', gameController.readIndex);
 router.get('/search', indexController.gameSearch);
-//router.get('/categories', gameController.getCategories);
-//router.get('/genres', gameController.getGenres);
+router.get('/categories', indexController.getCategories);
+router.get('/genres', indexController.getGenres);
 //router.get('/steamspytags', gameController.getSteamSpyTags);
 router.get('/initSearch', indexController.initSearch);
 //router.get('/', function(req, res, next) {

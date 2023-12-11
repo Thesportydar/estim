@@ -16,6 +16,7 @@ buttons: #414141
 .game-body-container {
     display: flex;
     flex-direction: row;
+    width: 100%;
 }
 
 .game-content {
@@ -23,9 +24,8 @@ buttons: #414141
 }
 
 .media {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: block;
+    width: 100%;
 }
 
 .game-header h1 {
@@ -56,7 +56,7 @@ ul[rn-carousel] {
 /*--------------------miniaturas*/
 .thumbnails {
     display: flex;
-    justify-content:flex-start;
+    justify-content:center;
     flex-wrap: nowrap;
     height: auto;
     overflow: auto;
@@ -91,7 +91,7 @@ ul[rn-carousel] {
 .sticky-container {
     width: 25%; /* Ajusta según sea necesario */
     position: sticky;
-    top: 0;
+    top: 120px;
     height: 100vh; /* Hace que el contenedor tenga el 100% de la altura de la ventana */
     box-sizing: border-box;
     margin-left: auto;
@@ -144,8 +144,9 @@ ul[rn-carousel] {
 }
 
 .btn-buy-now {
-    display: block;
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 75px;
     background-color: #414141;
     color: #f5f5f5;
@@ -154,6 +155,7 @@ ul[rn-carousel] {
     cursor: pointer;
     border: none;
     border-radius: 0px 0px 5px 5px;
+    text-decoration: none;
 }
 
 .btn-buy-now:hover {

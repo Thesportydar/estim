@@ -31,17 +31,37 @@
         <link rel="shortcut icon" href="imgs/estim_logo.png">
     </head>
     <body ng-controller="indexCtrl">
-        <div class="estim-header">
-            <div class="logo">
-                <img class="logoImg"
-                src="imgs/estim_logo.png"
-                alt="logo"
-                ng-click="gotoMain()"/>
+        <div class="estim-header-container">
+            <div class="estim-header">
+                <img class="logo"
+                    src="imgs/estim_logo.png"
+                    alt="logo"
+                    ng-click="gotoMain()"/>
+                <div class="explorar" ng-click="gotoSearch()">
+                    <h1>EXPLORAR</h1>
+                </div>
+                <div class="index-dropdown-container" ng-mouseover="showFeaturedDropdown = true" ng-mouseleave="showFeaturedDropdown = false">
+                    <h1 ng-class="{ 'hovered': showFeaturedDropdown}">DESTACADOS</h1>
+                    <div class="index-dropdown" ng-show="showFeaturedDropdown" >
+                        <div class="index-dropdown-item">MAS JUGADOS</div>
+                        <div class="index-dropdown-item">MAS VENDIDO</div>
+                        <div class="index-dropdown-item">ULTIMOS LANZAMIENTOS</div>
+                        <div class="index-dropdown-item">FAVORITOS DE LOS USUARIOS</div>
+                    </div>
+                </div>
+                <div class="index-dropdown-container" ng-mouseover="showCatDropdown = true" ng-mouseleave="showCatDropdown = false">
+                    <h1 ng-class="{ 'hovered': showCatDropdown}">CATEGORIAS</h1>
+                    <div class="categories-dropdown index-dropdown" ng-show="showCatDropdown" >
+                        <div class="index-dropdown-item" ng-repeat="category in categories" ng-click="gotoCategory(category)">{{category}}</div>
+                    </div>
+                </div>
+                <div class="index-dropdown-container" ng-mouseover="showGenDropdown = true" ng-mouseleave="showGenDropdown = false">
+                    <h1 ng-class="{ 'hovered': showGenDropdown}">GENEROS</h1>
+                    <div class="categories-dropdown index-dropdown" ng-show="showGenDropdown" >
+                        <div class="index-dropdown-item" ng-repeat="genre in genres" ng-click="gotoGenre(genre)">{{genre}}</div>
+                    </div>
+                </div>
             </div>
-            <div class="explorar" ng-click="gotoSearch()"><h1>EXPLORAR</h1></div>
-            <div><h1>DESTACADOS</h1></div>
-            <div><h1>CATEGORIAS</h1></div>
-            <div><h1>GENEROS</h1></div>
         </div>
         <div class="contenedor">
             <div ng-view></div>
