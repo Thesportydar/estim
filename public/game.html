@@ -1,6 +1,16 @@
 <div class="game-container">
     <div class="game-header">
         <h1>{{game.name}}</h1>
+        <div class="stars">
+            <!-- Estrellas completas -->
+            <img ng-src="imgs/star.png" alt="star" ng-repeat="star in getStarsArray(fullStars) track by $index">
+            
+            <!-- Media estrella -->
+            <img ng-if="halfStars" ng-src="imgs/half_star.png" alt="half-star">
+            
+            <!-- Estrellas vacías -->
+            <img ng-src="imgs/empty_star.png" alt="empty-star" ng-repeat="star in getStarsArray(emptyStars) track by $index">
+        </div>
     </div>
     <div class="game-body-container">
         <div class="game-content">
@@ -62,6 +72,39 @@
                     <div class="requirements" ng-if="linuxReq">
                         <div class="minimum-requirements" ng-bind-html="trustedHtml(game.linux_requirements.minimum)"></div>
                         <div class="recommended-requirements" ng-bind-html="trustedHtml(game.linux_requirements.recommended)"></div>
+                    </div>
+                </div>
+                <div class="reviews-container">
+                    <h1>Reviews</h1>
+                    <div class="reviews">
+                        <div class="rating">
+                            <h2>Calificacion</h2>
+                            <div class="stars">
+                                <!-- Estrellas completas -->
+                                <img ng-src="imgs/star.png" alt="star" ng-repeat="star in getStarsArray(fullStars) track by $index">
+                                
+                                <!-- Media estrella -->
+                                <img ng-if="halfStars" ng-src="imgs/half_star.png" alt="half-star">
+                                
+                                <!-- Estrellas vacías -->
+                                <img ng-src="imgs/empty_star.png" alt="empty-star" ng-repeat="star in getStarsArray(emptyStars) track by $index">
+                            </div>
+                        </div>
+                        <h3>Reseñas totales</h3>
+                        <div class="review" ng-repeat="review in game.reviews">
+                            <div class="review-header">
+                                <div class="reviewer">
+                                    <img ng-src="{{review.reviewer.avatar}}" alt="{{review.reviewer.name}}"/>
+                                    <p>{{review.reviewer.name}}</p>
+                                </div>
+                                <div class="review-date">
+                                    <p>{{review.date | date:"dd MMM yyyy"}}</p>
+                                </div>
+                            </div>
+                            <div class="review-body">
+                                <p>{{review.review}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
