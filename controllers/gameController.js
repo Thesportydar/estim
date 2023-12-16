@@ -1,4 +1,4 @@
-const { Game } = require("../models");
+const { Game, Review } = require("../models");
 
 module.exports.gameCreate = async (req, res) => {
     try {
@@ -86,6 +86,44 @@ module.exports.gameUpdateOne = async (req, res) => {
             res.status(400).json({"message": "No hay parametro de busqueda"});
         }
     } catch (error) {
+        res.status(500).json(error);
+    }
+}
+
+module.exports.reviewsReadAll = async (req, res) => {
+    try {
+        if (req.params && req.params.appid){
+            var appid = req.params.appid;
+            var reviews = await Review.find({"appid": appid}).limit(20);
+
+            if (reviews){
+                res.status(200).json(reviews);
+            } else {
+                res.status(404).json({"message": "Reviews not found"});
+            }
+        } else {
+            res.status(400).json({"message": "No hay parametro de busqueda"});
+        }
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+
+module.exports.reviewsReadOne = async (req, res) => {
+    try {
+        if (req.params && req.params.appid && req.params.review_id){
+            var appid = req.params.appid;
+            var review_id = req.params.review_id;
+            var review = await Review.findOne({"appid": appid, "review_id": review_id});
+
+            if (review){
+                res.status(200).json(review);
+            } else {
+                res.status(404).json({"message": "Review not found"});
+            }
+        }
+    }
+    catch (error) {
         res.status(500).json(error);
     }
 }

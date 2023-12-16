@@ -264,16 +264,28 @@ $scope.gotoGame = function (appid) {
                 console.log("hola, todo ok", response);
                 $scope.game = response.data;
 
-                var percentage = ($scope.game.positive_ratings / $scope.game.total_ratings) * 100;
+                $scope.percentage = ($scope.game.positive_ratings / $scope.game.total_rating) * 100;
 
-                $scope.fullStars = Math.floor(percentage / 20);
-                $scope.halfStars = percentage % 20 >= 10 ? 1 : 0;
+                $scope.fullStars = Math.floor($scope.percentage / 20);
+                $scope.halfStars = $scope.percentage % 20 >= 10 ? 1 : 0;
                 $scope.emptyStars = 5 - $scope.fullStars - $scope.halfStars;
             },
             function errorCallback(response) {
                 console.log("hola, todo mal!!", response);
             }
         );
+        $http({
+            method: "GET",
+            url: "/game/" + $routeParams.game + "/reviews",
+          }).then(
+              function (response) {
+                  console.log("hola, todo ok consegui las reviews", response);
+                  $scope.reviews = response.data;
+              },
+              function errorCallback(response) {
+                  console.log("hola, todo mal!!", response);
+              }
+          );
     };
     refresh();
     $scope.carouselIndex = 0;

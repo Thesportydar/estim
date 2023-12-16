@@ -1,4 +1,4 @@
-const { Game } = require("../models");
+const { Game, Review } = require("../models");
 
 module.exports.gameSearch = async (req, res) => {
     try {
