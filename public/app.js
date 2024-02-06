@@ -200,16 +200,20 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
     );
   };
 
+  $scope.options = [
+    { value: 'name', label: 'Nombre' },
+    { value: 'release_date', label: 'Fecha de lanzamiento' },
+    { value: 'price', label: 'Precio' }
+  ];
 
-  $scope.propertyName = "name";
+  $scope.propertyName = $scope.options[0].value;;
   $scope.reverse = false;
 
-  $scope.options = [
-    "appid",
-    "name",
-    "release_date",
-    "price",
-  ];
+  $scope.getTranslatedLabel = function (value) {
+    // Función para obtener la traducción de la etiqueta según el valor
+    const option = $scope.options.find(option => option.value === value);
+    return option ? option.label : value;
+  };
 
   $scope.search = "";
   $scope.filters = [[], [], []];

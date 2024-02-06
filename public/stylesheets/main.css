@@ -6,6 +6,14 @@ titles: #f5f5f5
 paragraphs: #9a9a9a
 buttons: #414141
 */
+.background-image {
+    background-image: url('https://raw.githubusercontent.com/NicolasMP51/imagenes/main/image__1_-removebg-preview.png'); /* Reemplaza 'ENLACE_DIRECTO_IMGUR' con el enlace directo de tu imagen en Imgur */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 60vh;
+}
+
 .main-container {
     width: 100%;
     margin: 0 auto;
@@ -16,7 +24,7 @@ buttons: #414141
 .main-game-body-container {
     display: flex;
     flex-direction: row;
-    background-color: #18181c;
+    background-color: #202020;
     padding: 20px; /* Añade un espacio alrededor del contenido para mejorar la apariencia */
     border-radius: 10px;
 }
@@ -125,7 +133,7 @@ ul[rn-carousel] {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    background-color: #18181c;
+    background-color: #202020;
     border-radius: 10px;
 }
 
@@ -154,7 +162,7 @@ ul[rn-carousel] {
     flex-wrap: nowrap;
     overflow-x: auto;
     padding: 10px;
-    background-color: #18181c;
+    background-color: #202020;
     border-radius: 10px;
     max-width: 100%;
 }

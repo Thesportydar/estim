@@ -43,12 +43,14 @@ ul[rn-carousel] {
     width: 100%;
     height: 500px;
     margin: 0 auto;
+    border-radius: 10px;
 }
 
 .carousel-media img {
     width: 100%;
     max-height: 100%;
     object-fit:cover;
+    border-radius: 10px;
 }
 
 /*--------------------FIN Carousel de media*/
@@ -105,6 +107,7 @@ ul[rn-carousel] {
 .summary-header-image {
     width: 100%;
     height: auto;
+    border-radius: 7px;
 }
 
 .game-info {
@@ -151,10 +154,10 @@ ul[rn-carousel] {
     background-color: #414141;
     color: #f5f5f5;
     text-align: center;
-    font-size: 16px;
+    font-size: 25px;
     cursor: pointer;
     border: none;
-    border-radius: 0px 0px 5px 5px;
+    border-radius: 7px;
     text-decoration: none;
 }
 
@@ -236,10 +239,10 @@ ul[rn-carousel] {
     background-color: #414141;
     color: #f5f5f5;
     text-align: center;
-    font-size: 18px;
+    font-size: 25px;
     cursor: pointer;
     border: none;
-    border-radius: 0px 0px 5px 5px;
+    border-radius: 7px;
     width: 100%;
     height: 70px;
     display: block;
@@ -253,6 +256,7 @@ ul[rn-carousel] {
 .requirements-container {
     background-color: #202020;
     width: 100%;
+    border-radius: 7px;
 }
 
 .header-requirements {
