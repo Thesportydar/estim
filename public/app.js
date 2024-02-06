@@ -267,11 +267,29 @@ $scope.gotoGame = function (appid) {
             function (response) {
                 console.log("hola, todo ok", response);
                 $scope.game = response.data;
+
+                $scope.percentage = ($scope.game.positive_ratings / $scope.game.total_rating) * 100;
+
+                $scope.fullStars = Math.floor($scope.percentage / 20);
+                $scope.halfStars = $scope.percentage % 20 >= 10 ? 1 : 0;
+                $scope.emptyStars = 5 - $scope.fullStars - $scope.halfStars;
             },
             function errorCallback(response) {
                 console.log("hola, todo mal!!", response);
             }
         );
+        $http({
+            method: "GET",
+            url: "/game/" + $routeParams.game + "/reviews",
+          }).then(
+              function (response) {
+                  console.log("hola, todo ok consegui las reviews", response);
+                  $scope.reviews = response.data;
+              },
+              function errorCallback(response) {
+                  console.log("hola, todo mal!!", response);
+              }
+          );
     };
     refresh();
     $scope.carouselIndex = 0;
@@ -289,31 +307,36 @@ $scope.gotoGame = function (appid) {
       return $sce.trustAsHtml(html);
     };
 
-  $scope.toggleShowMoreReq = function() {
-      $scope.showMoreReq = !$scope.showMoreReq;
-      $scope.$apply();
-  };
+    $scope.toggleShowMoreReq = function() {
+        $scope.showMoreReq = !$scope.showMoreReq;
+        $scope.$apply();
+    };
 
-  $scope.toggleShowMoreDesc = function() {
-    $scope.showMoreDesc = !$scope.showMoreDesc;
-    $scope.$apply();
-  };
+    $scope.toggleShowMoreDesc = function() {
+        $scope.showMoreDesc = !$scope.showMoreDesc;
+        $scope.$apply();
+    };
 
-  $scope.showPcReq = function() {
-    $scope.pcReq = true;
-    $scope.macReq = false;
-    $scope.linuxReq = false;
-  };
+    $scope.showPcReq = function() {
+        $scope.pcReq = true;
+        $scope.macReq = false;
+        $scope.linuxReq = false;
+    };
 
-  $scope.showMacReq = function() {
-    $scope.pcReq = false;
-    $scope.macReq = true;
-    $scope.linuxReq = false;
-  };
+    $scope.showMacReq = function() {
+        $scope.pcReq = false;
+        $scope.macReq = true;
+        $scope.linuxReq = false;
+    };
 
-  $scope.showLinuxReq = function() {
-    $scope.pcReq = false;
-    $scope.macReq = false;
-    $scope.linuxReq = true;
-  };
+    $scope.showLinuxReq = function() {
+        $scope.pcReq = false;
+        $scope.macReq = false;
+        $scope.linuxReq = true;
+    };
+
+    $scope.getStarsArray = function(num) {
+        // Devuelve un array con el número de elementos igual a num
+        return new Array(num);
+    };
 });

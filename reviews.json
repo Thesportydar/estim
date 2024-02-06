@@ -1,0 +1,20 @@
+[
+    {
+        "review_id": 0,
+        "appid": 10,
+        "name": "thesportydar",
+        "recommend": true,
+        "date": "2019-01-01T00:00:00.000Z",
+        "title": "Great Game",
+        "text": "This game is great!"
+    },
+    {
+        "review_id": 1,
+        "appid": 10,
+        "name": "Nicolas51",
+        "recommend": false,
+        "date": "2022-01-01T00:00:00.000Z",
+        "title": "Soy medio malo en este juego",
+        "text": "no me gusto para nada, es muy dificil disparar"
+    }
+]
