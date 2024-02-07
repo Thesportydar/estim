@@ -8,14 +8,10 @@
                 ng-model="search"
                 placeholder="Escribe el nombre del juego"
                 />
-                <button class="btn-search" ng-click="searchBy()">Search</button>
+                <button class="btn-search" ng-click="searchBy()">Buscar</button>
             </div>
             <div class="table-head-sort">
-                <select
-                    class="form-property"
-                    ng-model="propertyName"
-                    ng-options="option for option in options">
-                </select>
+                <select class="form-property" ng-model="propertyName" ng-options="option.value as getTranslatedLabel(option.value) for option in options"></select>
                 <button class="btn-reverse" ng-click="reverse = !reverse">
                     <!--alter between upper arrow and lower arrow-->
                     <span ng-show="!reverse">▲</span>
@@ -44,9 +40,9 @@
                     <td class="td-gotoGame-container">
                         <div class="td-gotoGame">
                             <h2 ng-if="gam.price > 0">{{gam.price | currency:"US$" }}</h2>
-                            <h3 ng-if="gam.price === 0.0">Free to Play</h3>
+                            <h3 ng-if="gam.price === 0.0">Gratis</h3>
                             <button ng-if="gam.price > 0" class="btn-gotoGame">Comprar</button>
-                            <button ng-if="gam.price === 0" class="btn-gotoGame">Jugar Gratis</button>
+                            <button ng-if="gam.price === 0" class="btn-gotoGame">Jugar</button>
                         </div>
                     </td>
                 </tr>
@@ -61,7 +57,7 @@
         </div>
         <table class="tablita">
             <thead>
-                <button class="filter_btn" ng-click="toggleShowFilter(0, categories.lenght())"> Categories </button>
+                <button class="filter_btn" ng-click="toggleShowFilter(0, categories.lenght())"> Categorias </button>
             </thead>
             <tbody>
                 <tr class="filter" ng-repeat="cat in categories | limitTo: lims[0]">
@@ -74,7 +70,7 @@
         </table>
         <table class="tablita">
             <thead>
-                <button class="filter_btn" ng-click="toggleShowFilter(1, genres.lenght())"> Genres </button>
+                <button class="filter_btn" ng-click="toggleShowFilter(1, genres.lenght())"> Generos </button>
             </thead>
             <tbody>
                 <tr class="filter" ng-repeat="gen in genres | limitTo: lims[1]">

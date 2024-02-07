@@ -1,3 +1,4 @@
+const { model } = require("mongoose");
 const { Game, Review } = require("../models");
 
 module.exports.gameCreate = async (req, res) => {
@@ -117,6 +118,47 @@ module.exports.reviewsReadOne = async (req, res) => {
             var review = await Review.findOne({"appid": appid, "review_id": review_id});
 
             if (review){
+                re
+                res.status(200).json(review);
+            } else {
+                res.status(404).json({"message": "Review not found"});
+            }
+        }
+    }
+    catch (error) {
+        res.status(500).json(error);
+    }
+}
+
+module.exports.reviewsPublish = async (req, res) => {
+    try {
+        if (req.params && req.params.appid){
+            var appid = req.params.appid;
+            // get the last review_id
+            var lastReview = await Review.findOne({"appid": appid}).sort({"review_id": -1});
+            var review_id = 0;
+            if (lastReview){
+                review_id = lastReview.review_id + 1;
+            }
+            // made a review with appid, review_id, and the everything else in the body
+            var review = await Review.create({"appid": appid, "review_id": review_id, ...req.body});
+            review.save();
+            res.status(200).json(review);
+        }
+    }
+    catch (error) {
+        res.status(500).json(error);
+    }
+}
+
+module.exports.reviewsDeleteOne = async (req, res) => {
+    try {
+        if (req.params && req.params.appid && req.params.review_id){
+            var appid = req.params.appid;
+            var review_id = req.params.review_id;
+            var review = await Review.deleteOne({"appid": appid, "review_id": review_id});
+
+            if (review.deletedCount > 0){
                 res.status(200).json(review);
             } else {
                 res.status(404).json({"message": "Review not found"});

@@ -6,7 +6,7 @@ var indexController = require('../controllers/indexController');
 router.get('/search', indexController.gameSearch);
 router.get('/categories', indexController.getCategories);
 router.get('/genres', indexController.getGenres);
-//router.get('/steamspytags', gameController.getSteamSpyTags);
+router.get('/steamspy_tags', indexController.getSteamSpyTags);
 router.get('/initSearch', indexController.initSearch);
 //router.get('/', function(req, res, next) {
   //res.render('index', { title: 'Express' });

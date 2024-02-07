@@ -16,19 +16,24 @@
         <!--integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"-->
         <!--crossorigin="anonymous"-->
         <!--/>-->
+        <link rel="stylesheet" href="/node_modules/ng-dialog/css/ngDialog.css" />
+        <link rel="stylesheet" href="/node_modules/ng-dialog/css/ngDialog-theme-default.css" />
         <link rel="stylesheet" href="stylesheets/index.css" />
         <link rel="stylesheet" href="stylesheets/main.css" />
         <link rel="stylesheet" href="stylesheets/search.css" />
         <link rel="stylesheet" href="stylesheets/game.css" />
+        <link rel="stylesheet" href="stylesheets/dialogs.css" />
         <link href="/node_modules/angular-carousel/dist/angular-carousel.css" rel="stylesheet" type="text/css" />
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-touch.js"></script>
         <script src="/node_modules/angular-carousel/dist/angular-carousel.min.js"></script>
+        <script src="/node_modules/ng-dialog/js/ngDialog.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-sanitize.js"></script>
         <script src="app.js"></script>
-        <title>Estimcito</title>
+        <title>Estim</title>
         <link rel="shortcut icon" href="imgs/estim_logo.png">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     </head>
     <body ng-controller="indexCtrl">
         <div class="estim-header-container">
@@ -39,15 +44,6 @@
                     ng-click="gotoMain()"/>
                 <div class="explorar" ng-click="gotoSearch()">
                     <h1>EXPLORAR</h1>
-                </div>
-                <div class="index-dropdown-container" ng-mouseover="showFeaturedDropdown = true" ng-mouseleave="showFeaturedDropdown = false">
-                    <h1 ng-class="{ 'hovered': showFeaturedDropdown}">DESTACADOS</h1>
-                    <div class="index-dropdown" ng-show="showFeaturedDropdown" >
-                        <div class="index-dropdown-item">MAS JUGADOS</div>
-                        <div class="index-dropdown-item">MAS VENDIDO</div>
-                        <div class="index-dropdown-item">ULTIMOS LANZAMIENTOS</div>
-                        <div class="index-dropdown-item">FAVORITOS DE LOS USUARIOS</div>
-                    </div>
                 </div>
                 <div class="index-dropdown-container" ng-mouseover="showCatDropdown = true" ng-mouseleave="showCatDropdown = false">
                     <h1 ng-class="{ 'hovered': showCatDropdown}">CATEGORIAS</h1>
@@ -61,10 +57,40 @@
                         <div class="index-dropdown-item" ng-repeat="genre in genres" ng-click="gotoGenre(genre)">{{genre}}</div>
                     </div>
                 </div>
+                <div class="agregar">
+                    <h1 ng-if="userType == 'admin'" ng-click="newGame()">AGREGAR</h1>
+                </div>
+                <div class="user-type-selector">
+                    <select class="user-type" ng-model="userType">
+                        <option value="user">Usuario</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="contenedor">
             <div ng-view></div>
         </div>
+        <footer class="estim-footer">
+            <div class="footer-content">
+                <p class="footer-text">© 2023, Estim Store, Inc. Todos los derechos reservados. Otras marcas o nombres de productos son marcas comerciales de sus respectivos propietarios.
+                    Todas las marcas registradas pertenecen a sus respectivos dueños en EE. UU. y otros países.
+                    Todos los precios incluyen IVA (donde sea aplicable). Unica pagina web de videojuegos Argentina.</p>
+                <button id="scrollToTopBtn">&#x2B06;</button>
+            </div>
+            <div class="footer-links">
+                <span>Política de privacidad</span>
+                <span>Términos de servicio</span>
+            </div>
+        </footer>
+        <script>
+            // Función para desplazarse instantáneamente hacia arriba
+            function scrollToTop() {
+                window.scrollTo(0, 0);
+            }
+    
+            // Agrega un listener al botón
+            document.getElementById('scrollToTopBtn').addEventListener('click', scrollToTop);
+        </script>
     </body>
 </html>

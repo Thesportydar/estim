@@ -113,3 +113,12 @@ module.exports.getGenres = async (req, res) => {
         res.status(404).json(error);
     }
 }
+
+module.exports.getSteamSpyTags = async (req, res) => {
+    try {
+        const tags = await getSteamSpyTags();
+        res.status(200).json(tags);
+    } catch (error) {
+        res.status(404).json(error);
+    }
+}

@@ -1,0 +1,19 @@
+<div class="ngdialog-message">
+    <h3 class="modal-title">Editar {{carKey}}</h3>
+    <div class="modal-body">
+        <div class="dialog-caracteristics-container">
+            <div class="dialog-caracteristics text-multi" ng-repeat="car in carValues">
+                <div class="caracteristic-button" ng-click="delete(car)">
+                    <p>{{car}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="add-caracteristic">
+            <input type="text" class="input-review-title input-caracteristic" ng-model="car" placeholder="Ingrese el nombre">
+            <button class="btn-publish-review btn-add-car" ng-click="add(car)">+</button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn-publish-review" ng-click="edit(carKey, carValues)">Guardar</button>
+    </div>
+</div>

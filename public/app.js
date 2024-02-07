@@ -1,16 +1,16 @@
-angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
+angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "ngDialog"])
         .config(["$routeProvider", function ($routeProvider) {
             $routeProvider
             .when("/", {
-                templateUrl: "main.html",
+                templateUrl: "views/main.html",
                 controller: "mainCtrl"
             })
             .when("/search", {
-              templateUrl: "search.html",
+              templateUrl: "views/search.html",
               controller: "searchCtrl"
             })
             .when("/game/:game", {
-                templateUrl: "game.html",
+                templateUrl: "views/game.html",
                 controller: "gameCtrl"
             })
             .otherwise({
@@ -43,7 +43,53 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
                     console.log("hola, todo mal!!", response);
                 }
             );
-        }
+        };
+
+        $scope.newGame = function () {
+            $http({
+                method: "POST",
+                url: "/game",
+                data: {
+                    name: "New Game",
+                    short_description: "Short description",
+                    categories: [],
+                    genres: [],
+                    steamspy_tags: [],
+                    developer: [],
+                    publisher: [],
+                    release_date: new Date(Date.now()),
+                    price: 0,
+                    appid: 0,
+                    platforms: [],
+                    required_age: 0,
+                    positive_ratings: 0,
+                    negative_ratings: 0,
+                    average_playtime: 0,
+                    owners: 0,
+                    total_ratings: 0,
+                    diff_ratings: 0,
+                    detailed_description: "Detailed description",
+                    about_the_game: "About the game",
+                    header_image: "https://steamcdn-a.akamaihd.net/steam/apps/0/header.jpg",
+                    screenshots: [],
+                    pc_requirements: {},
+                    mac_requirements: {},
+                    linux_requirements: {},
+                    minimum: "Minimum requirements",
+                    recommended: "Recommended requirements",
+                    website: "https://store.steampowered.com/app/0",
+                    support_email: "https://support.steampowered.com"
+                },
+            }).then(
+                function (response) {
+                    console.log("hola, todo ok", response);
+                    $location.path("/game/" + response.data.appid);
+                },
+                function errorCallback(response) {
+                    console.log("hola, todo mal!!", response);
+                }
+            );
+        };
         
         $scope.gotoMain = function () {
             $location.path("/").search({});
@@ -64,6 +110,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
         $scope.showCatDropdown = false;
         $scope.showGenreDropdown = false;
         $scope.showFeaturedDropdown = false;
+        $scope.userType = "user";
         refresh();
     })
     .controller("mainCtrl", function ($scope, $http, $location, $interval) {
@@ -191,7 +238,6 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
             });
             $scope.maxPrice = response.data.maxPrice;
             $scope.priceRange = $scope.maxPrice;
-            console.log("refresh1normal");
             //refresh();
         },
         function errorCallback(response) {
@@ -200,16 +246,20 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize"])
     );
   };
 
+  $scope.options = [
+    { value: 'name', label: 'Nombre' },
+    { value: 'release_date', label: 'Fecha de lanzamiento' },
+    { value: 'price', label: 'Precio' }
+  ];
 
-  $scope.propertyName = "name";
+  $scope.propertyName = $scope.options[0].value;;
   $scope.reverse = false;
 
-  $scope.options = [
-    "appid",
-    "name",
-    "release_date",
-    "price",
-  ];
+  $scope.getTranslatedLabel = function (value) {
+    // Función para obtener la traducción de la etiqueta según el valor
+    const option = $scope.options.find(option => option.value === value);
+    return option ? option.label : value;
+  };
 
   $scope.search = "";
   $scope.filters = [[], [], []];
@@ -254,7 +304,7 @@ $scope.gotoGame = function (appid) {
     $location.path("/game/" + appid);
 };
 })
-.controller("gameCtrl", function ($scope, $http, $routeParams, $sce) {
+.controller("gameCtrl", function ($scope, $http, $location, $routeParams, $sce, ngDialog) {
     var refresh = function () {
         $http({
           method: "GET",
@@ -264,7 +314,7 @@ $scope.gotoGame = function (appid) {
                 console.log("hola, todo ok", response);
                 $scope.game = response.data;
 
-                $scope.percentage = ($scope.game.positive_ratings / $scope.game.total_rating) * 100;
+                $scope.percentage = ($scope.game.positive_ratings / $scope.game.total_ratings) * 100;
 
                 $scope.fullStars = Math.floor($scope.percentage / 20);
                 $scope.halfStars = $scope.percentage % 20 >= 10 ? 1 : 0;
@@ -334,5 +384,276 @@ $scope.gotoGame = function (appid) {
     $scope.getStarsArray = function(num) {
         // Devuelve un array con el número de elementos igual a num
         return new Array(num);
+    };
+
+    $scope.deleteGame = function() {
+        $http({
+            method: "DELETE",
+            url: "/game/" + $routeParams.game,
+        }).then(
+            function (response) {
+                console.log("hola, todo ok", response);
+            },
+            function errorCallback(response) {
+                console.log("hola, todo mal!!", response);
+            }
+        );
+        $location.path("/");
+    };
+
+    $scope.deleteReview = function(review_id) {
+        $http({
+            method: "DELETE",
+            url: "/game/" + $routeParams.game + "/reviews/" + review_id,
+        }).then(
+            function (response) {
+                console.log("hola, todo ok", response);
+                refresh();
+            },
+            function errorCallback(response) {
+                console.log("hola, todo mal!!", response);
+            }
+        );
+    };
+
+    $scope.showEditReviewModal = function(review) {
+        $scope.review = review;
+        ngDialog.open({
+            template: 'views/review-modal.html', // Define una plantilla para la ventana modal
+            controller: 'reviewCtrl', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+
+    $scope.showReviewModal = function() {
+        $scope.review = "";
+        ngDialog.open({
+            template: 'views/review-modal.html', // Define una plantilla para la ventana modal
+            controller: 'reviewCtrl', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+
+    $scope.showDialogEditTitle = function() {
+        ngDialog.open({
+            template: 'views/dialog-edit-title.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+
+    $scope.showDialogEditShortDesc = function() {
+        ngDialog.open({
+            template: 'views/dialog-edit-short-desc.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+    $scope.showDialogEditCat = function() {
+        $scope.carKey = "categories";
+        $scope.carValues = angular.copy($scope.game.categories);
+        ngDialog.open({
+            template: 'views/dialog-edit-caracteristics.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+    $scope.showDialogEditGenre = function() {
+        $scope.carKey = "genres";
+        $scope.carValues = angular.copy($scope.game.genres);
+        ngDialog.open({
+            template: 'views/dialog-edit-caracteristics.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+    $scope.showDialogEditTag = function() {
+        $scope.carKey = "steamspy_tags";
+        $scope.carValues = angular.copy($scope.game.steamspy_tags);
+        ngDialog.open({
+            template: 'views/dialog-edit-caracteristics.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+    $scope.showDialogEditDeveloper = function() {
+        $scope.carKey = "developer";
+        $scope.carValues = angular.copy($scope.game.developer);
+        ngDialog.open({
+            template: 'views/dialog-edit-text-multi.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+    $scope.showDialogEditPublisher = function() {
+        $scope.carKey = "publisher";
+        $scope.carValues = angular.copy($scope.game.publisher);
+        ngDialog.open({
+            template: 'views/dialog-edit-text-multi.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+    $scope.showDialogEditReleaseDate = function() {
+        ngDialog.open({
+            template: 'views/dialog-edit-date.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    }
+    $scope.showDialogEditPrice = function() {
+        ngDialog.open({
+            template: 'views/dialog-edit-price.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+})
+.controller("reviewCtrl", function ($scope, $http, $routeParams, ngDialog) {
+    if ($scope.review) {
+        $scope.reviewer = $scope.review.name;
+        $scope.title = $scope.review.title;
+        $scope.descripcion = $scope.review.text;
+        $scope.recomendado = $scope.review.recommend;
+    } else {
+        $scope.reviewer = "";
+        $scope.title = "";
+        $scope.descripcion = "";
+        $scope.recomendado = true;
+    };
+
+    $scope.addReview = function () {
+        // Agregar lógica para procesar la reseña
+        $http({
+            method: "POST",
+            url: "/game/" + $routeParams.game + "/reviews",
+            data: {
+                name: $scope.reviewer,
+                title: $scope.title,
+                text: $scope.descripcion,
+                recommend: $scope.recomendado,
+                date: new Date(Date.now())
+            },
+        }).then(
+            function (response) {
+                console.log("hola, todo ok", response);
+                $scope.reviews.push(response.data);
+            },
+            function errorCallback(response) {
+                console.log("hola, todo mal!!", response);
+            }
+        );
+        ngDialog.closeAll();
+    };
+
+    $scope.editReview = function () {
+        // Agregar lógica para procesar la reseña
+        $http({
+            method: "PUT",
+            url: "/game/" + $routeParams.game + "/reviews/" + $scope.review.review_id,
+            data: {
+                name: $scope.reviewer,
+                title: $scope.title,
+                text: $scope.descripcion,
+                recommend: $scope.recomendado,
+                date: new Date(Date.now())
+            },
+        }).then(
+            function (response) {
+                console.log("hola, todo ok", response);
+                refresh();
+            },
+            function errorCallback(response) {
+                console.log("hola, todo mal!!", response);
+            }
+        );
+        ngDialog.closeAll();
+    };
+
+    $scope.toggleRecomendado = function() {
+        $scope.recomendado = !$scope.recomendado;
+        console.log("Recomendado = " +  $scope.recomendado);
+    };
+})
+.controller("gameEdit", function ($scope, $http, $routeParams, ngDialog) {
+    $scope.edit = function (carKey, carValues) {
+        var data = {};
+        data[carKey] = carValues;
+        $http({
+            method: "PUT",
+            url: "/game/" + $routeParams.game,
+            data: data,
+        }).then(
+            function (response) {
+                console.log("hola, todo ok", response);
+                //data is {'<feature>': <value>}, update with relfection
+                    $scope.game[carKey] = carValues;
+            },
+            function errorCallback(response) {
+                console.log("hola, todo mal!!", response);
+            }
+        );
+        ngDialog.closeAll();
+    };
+    $scope.name = $scope.game.name;
+    $scope.shortDesc = $scope.game.short_description;
+    $scope.date = $scope.game.release_date;
+    $scope.price = $scope.game.price;
+    
+    if ($scope.carKey == "categories" || $scope.carKey == "genres" || $scope.carKey == "steamspy_tags") {
+        $http({
+            method: "GET",
+            url: "/" + $scope.carKey,
+        }).then(
+            function (response) {
+                console.log("hola, todo ok", response);
+                $scope.caracteristics = response.data.map(function (car) {
+                    return { name: car, checked: false };
+                });
+
+                for (let i = 0; i < $scope.carValues.length; i++) {
+                    for (let j = 0; j < $scope.caracteristics.length; j++) {
+                        if ($scope.caracteristics[j].name == $scope.carValues[i]) {
+                            $scope.caracteristics[j].checked = true;
+                            break;
+                        }
+                    }
+                }
+            },
+            function errorCallback(response) {
+                console.log("hola, todo mal!!", response);
+            }
+        );
+    }
+
+    $scope.toggleCaracteristic = function (car) {
+        car.checked = !car.checked;
+        if (car.checked) {
+            $scope.carValues.push(car.name);
+        } else {
+            var index = $scope.carValues.indexOf(car.name);
+            $scope.carValues.splice(index, 1);
+        }
+    };
+
+    $scope.delete = function (car) {
+        var index = $scope.carValues.indexOf(car);
+        $scope.carValues.splice(index, 1);
+    };
+
+    $scope.add = function (car) {
+        $scope.carValues.push(car);
+        $scope.car = "";
     };
 });

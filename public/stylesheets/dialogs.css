@@ -1,0 +1,193 @@
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+    background-color: #18181c;
+}
+
+.ngdialog-message h3 {
+    color: #f5f5f5;
+    text-align: center;
+    margin-top: 0;
+}
+
+.name-recomendacion {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.name-recomendacion input {
+    display: inline-block;
+    width: 175px;
+    height: 40px;
+    background-color: #202020;
+    color: #f5f5f5;
+    border: none;
+    font-size: 20px;
+}
+
+.name-recomendacion input:focus {
+    outline: none;
+}
+
+.marcar-recomendacion {
+    display: flex;
+    flex-direction: row;
+}
+
+.btn-recomendacion {
+    display: border-box;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.btn-recomendacion img {
+    filter: invert(100%);
+    width: 40px;
+    height: auto;
+}
+
+.btn-recomendacion.selected {
+    background: linear-gradient(to right, #64baed, #4581a4);
+}
+
+.input-review-title {
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    background-color: #202020;
+    color: #f5f5f5;
+    border: none;
+    font-size: 20px;
+    margin: 20px 0px;
+}
+
+.input-review-title:focus {
+    outline: none;
+}
+
+.input-review-desc {
+    display: inline-block;
+    width: 100%;
+    height: 200px;
+    background-color: #202020;
+    color: #f5f5f5;
+    border: none;
+    font-size: 14px;
+    resize: none;
+}
+
+.input-review-desc:focus {
+    outline: none;
+}
+
+.btn-publish-review {
+    height: 100%;
+    width: 50%;
+    cursor: pointer;
+    background: linear-gradient(to right, #64baed, #4581a4);
+    color: #f5f5f5;
+    font-size: 20px;
+    border: none;
+    opacity: 0.9;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.dialog-caracteristics-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 450px;
+    overflow-y: auto;
+    justify-content: center;
+    margin: 20px;
+}
+
+.dialog-caracteristics {
+    width: 100px;
+    margin: 0px 10px 20px 10px;
+    background-color: #414141;
+    display: flex;
+    align-items: center;
+    border: 1px solid transparent;
+}
+
+.dialog-caracteristics:hover {
+    cursor: pointer;
+    border: 1px solid #9a9a9a;
+}
+
+.caracteristic-button{
+    color: #f5f5f5;
+    font-size: 14px;
+    padding: 2px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.caracteristic-button.checked-class {
+    background: linear-gradient(to right, #64baed, #4581a4);
+    color: #ffffff;
+}
+
+.caracteristic-button p {
+    margin: 0;
+}
+
+.dialog-caracteristics.text-multi:hover {
+    background-color: red !important;
+}
+
+.add-caracteristic {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    margin-bottom: 20px;
+}
+
+.btn-add-car {
+    width: 5% !important;
+    padding: 1px;
+}
+
+.input-caracteristic {
+    width: 90% !important;
+    margin:0 !important;
+}
+
+.input-price {
+    font-size: 48px;
+    width: 50%;
+    background-color: #202020;
+    color: #f5f5f5;
+    border: none;
+}
+
+.input-price:focus {
+    outline: none;
+}
+
+.input-currency {
+    background-color: #202020;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-currency h1 {
+    font-size: 48px;
+    font-weight: normal;
+    color: #f5f5f5;
+    margin: 0px 10px;
+}
+
+.input-date {
+    font-size: 32px !important;
+    width: auto !important;
+}

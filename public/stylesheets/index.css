@@ -14,6 +14,7 @@ buttons: #414141
 
 .logo {
     padding-right: 20px;
+    margin-left: 30px;
 }
 
 .logoImg {
@@ -34,7 +35,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+    overflow-x: hidden;
 }
 
 /*personaliza el scrollbar*/
@@ -45,19 +46,22 @@ body {
 ::-webkit-scrollbar-thumb {
     
     background: linear-gradient(to right, #414141, #9a9a9a);
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #202020; /* Color del fondo de la barra de desplazamiento */
+    background-color: #393939; /* Color del fondo de la barra de desplazamiento */
+    border-radius: 5px;
 }
+
+/*----------------------Header*/
 
 .estim-header-container {
     background-color: #18181c;
     display:flex;
     width: 100%;
     height: 120px;
-    justify-content: center;
+    justify-content: left;
     position: sticky;
     top: 0;
     z-index: 1;
@@ -92,6 +96,7 @@ body {
 .estim-header h1:hover {
     cursor: pointer;
     color: #64baed;
+    border-radius: 5px;
     background-color: #414141;
 }
 
@@ -112,8 +117,10 @@ body {
 .index-dropdown {
     position: absolute;
     top: 100%;
+    margin-top: 2px;
     z-index: 1;
     background-color: #414141;
+    border-radius: 5px;
     /*box-shadow menos en la parte superior*/
     box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.75);
 }
@@ -125,3 +132,99 @@ body {
     column-rule-width: 1px;
     column-rule-color: #202020;
 }
+
+.user-type-selector {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 35px;
+}
+
+select {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #18181c;
+    border: 2px solid #404040;
+    color: #fff;
+    font-size: 1.3em;
+    cursor: pointer;
+}
+
+select:hover {
+    background-color: #404040;
+}
+
+select option {
+    padding: 1px;
+    border-radius: 5px;
+}
+
+/*----------------------FIN Header*/
+
+/*----------------------Pie de Pagina*/
+
+.estim-footer {
+    margin-top: 50px;
+    display: inline;
+    position: relative;
+    background-color: #18181c;
+    color: #f5f5f5;
+    text-align: center;
+    padding: 20px;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+    box-shadow: none;
+}
+
+.footer-content {
+    display: flex;
+    margin: 30px;
+    margin-top: 5px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-text {
+    max-width: 800px;
+    text-align: left;
+    color: #818181;
+    font: italic;
+}
+
+#scrollToTopBtn {
+    cursor: pointer;
+    font-size: 2em; 
+    border: 2px solid #404040;
+    background-color: #18181c;
+    color: #fff;
+    padding-top: 0px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#scrollToTopBtn:hover {
+    background-color: #404040;
+}
+
+.footer-links {
+    margin: 30px;
+    display: flex;
+    cursor: pointer;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.footer-links span {
+    color: #f5f5f5;
+    margin-right: 20px; /* O el espacio que desees entre los títulos */
+}
+
+.footer-links span:hover {
+    color: #64baed;
+}
+
+/*----------------------FIN Pie de Pagina*/
