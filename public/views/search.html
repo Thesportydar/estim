@@ -6,18 +6,26 @@
                 class="form-search"
                 type="text"
                 ng-model="search"
+                ng-keyup="$event.keyCode === 13 && searchBy()"
                 placeholder="Escribe el nombre del juego"
                 />
                 <button class="btn-search" ng-click="searchBy()">Buscar</button>
+                <button class="btn-search" ng-click="cleanSearch()">Limpiar busqueda</button>
             </div>
             <div class="table-head-sort">
-                <select class="form-property" ng-model="propertyName" ng-options="option.value as getTranslatedLabel(option.value) for option in options"></select>
-                <button class="btn-reverse" ng-click="reverse = !reverse">
+                <select class="form-property" ng-model="propertyName" ng-options="option.value as getTranslatedLabel(option.value) for option in options" ng-change="sortBy()"></select>
+                <button class="btn-reverse" ng-click="reverseFunction()">
                     <!--alter between upper arrow and lower arrow-->
                     <span ng-show="!reverse">▲</span>
                     <span ng-show="reverse">▼</span>
                 </button>
             </div>
+        </div>
+        <div class="number-of-results">Cantidad de resultados: {{ cantidadResultados }}</div>
+        <div class="pagination-container-sup">
+            <button class="pagination-container-btn" ng-click="previousPage()" ng-disabled="currentPage <= 1">Anterior</button>
+            <span class="pagination-container-txt"> Página {{ currentPage }} de {{ totalPages }} </span>
+            <button class="pagination-container-btn" ng-click="nextPage()" ng-disabled="currentPage >= totalPages">Siguiente</button>
         </div>
         <table class="tabla_juegos">
             <tbody>
@@ -48,13 +56,21 @@
                 </tr>
             </tbody>
         </table>
+        <div class="pagination-container-inf">
+            <button class="pagination-container-btn" ng-click="previousPage()" ng-disabled="currentPage <= 1">Anterior</button>
+            <span class="pagination-container-txt"> Página {{ currentPage }} de {{ totalPages }} </span>
+            <button class="pagination-container-btn" ng-click="nextPage()" ng-disabled="currentPage >= totalPages">Siguiente</button>
+        </div>
     </div>
     <div class="contenedorFiltros">
         <div class="filter-price-range">
             <p>Limitar por precio</p>
-            <input type="range" min="0" max="{{maxPrice}}" ng-model="priceRange" ng-change="filterByPrice()" />
-            <p1> Menos de USD$ {{priceRange}} </p1>
+            <p>Más de USD$ {{minPrice}}</p>
+            <input type="range" min="0" max="{{maxPrice}}" ng-model="minPrice" ng-change="filterByPrice()" />
+            <p>Menos de USD$ {{maxPrice}}</p>
+            <input type="range" min="0" max="{{absoluteMaxPrice}}" ng-model="maxPrice" ng-change="filterByPrice()" />
         </div>
+        <button class="filter-clean-btn" ng-click="cleanFilters()">Limpiar filtros</button>
         <table class="tablita">
             <thead>
                 <button class="filter_btn" ng-click="toggleShowFilter(0, categories.lenght())"> Categorias </button>
