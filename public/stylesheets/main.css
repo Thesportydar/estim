@@ -110,6 +110,10 @@ buttons: #414141
     white-space: normal; /* Permite que el texto envuelva automáticamente */
 }
 
+.main-game-large a {
+    cursor: pointer;
+}
+
 /*--------------------FIN Juego seleccionado*/
 
 /*--------------------Carousel de media*/

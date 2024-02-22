@@ -7,7 +7,7 @@
                 <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-buffered rn-carousel-auto-slide class="main-carousel-media">
                     <div class="main-game-large" ng-show="$index == currentIndex" ng-repeat="featuredGame in featuredGames">
                         <h1>{{featuredGame.name}}</h1>
-                        <a href="/#!/game/{{featuredGame.appid}}">
+                        <a ng-click="gotoGame(featuredGame.appid)">
                             <img ng-src="{{featuredGame.header_image}}" alt="{{featuredGame.name}}"/>
                         </a>
                         <p class="short-description">{{featuredGame.short_description}}</p>
@@ -53,7 +53,7 @@
     <h1>Juegos Gratuitos</h1>
     <div class="free-to-play-container">
         <div class="main-game-item" ng-repeat="mainGame in free_to_play">
-            <a href="/#!/game/{{mainGame.appid}}">
+            <a ng-click="gotoGame(mainGame.appid)">
                 <img ng-src="{{mainGame.header_image}}" alt="{{mainGame.name}}" />
             </a>
             <p class="main-game-title">{{mainGame.name}}</p>

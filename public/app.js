@@ -93,18 +93,27 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
         
         $scope.gotoMain = function () {
             $location.path("/").search({});
+            window.scrollTo(0, 0);
+        };
+
+        $scope.gotoGame = function (appid) {
+            $location.path("/game/" + appid);
+            window.scrollTo(0, 0);
         };
         
         $scope.gotoSearch = function () {
             $location.path("/search").search({});
+            window.scrollTo(0, 0);
         };
         
         $scope.gotoCategory = function (category) {
             $location.path("/search").search("category", category);
+            window.scrollTo(0, 0);
         };
 
         $scope.gotoGenre = function (genre) {
             $location.path("/search").search("genre", genre);
+            window.scrollTo(0, 0);
         };
         
         $scope.showCatDropdown = false;
@@ -131,6 +140,13 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
 
       var intervalPromise;
       var autoScrollInterval = 5000; // 5 segundos
+
+      $scope.scrollToTop = function () {
+        // Espera 100 milisegundos antes de realizar el desplazamiento
+        setTimeout(function () {
+            window.scrollTo(0, 0);
+        }, 100);
+      };
 
       function startAutoScroll() {
           intervalPromise = $interval(function () {
@@ -300,9 +316,6 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
         console.log("refresh5");
         refresh();
     };
-$scope.gotoGame = function (appid) {
-    $location.path("/game/" + appid);
-};
 })
 .controller("gameCtrl", function ($scope, $http, $location, $routeParams, $sce, ngDialog) {
     var refresh = function () {
