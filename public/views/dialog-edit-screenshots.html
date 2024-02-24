@@ -1,0 +1,12 @@
+<div class="ngdialog-message">
+    <h3 class="modal-title">Editar {{carKey}}</h3>
+    <div class="modal-body">
+        <div class="dialog-caracteristics-container">
+            <div class="dialog-caracteristics" ng-repeat="sh in screenshots">
+                <div class="caracteristic-button" ng-click="editScreenshot(sh.id)">
+                    <img ng-src="{{sh.path_thumbnail}}" alt="{{sh.id}}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

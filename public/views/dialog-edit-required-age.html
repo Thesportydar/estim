@@ -1,0 +1,12 @@
+<div class="ngdialog-message">
+    <h3 class="modal-title">Editar edad</h3>
+    <div class="modal-body">
+        <div class="modal-required-age">
+            <h1>+{{requiredAge}}</h1>
+            <input type="range" class="input-range" min="0" max="5" step="1" ng-model="ageRange" ng-change="updateAgeRange()">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn-publish-review" ng-click="edit('required_age', requiredAge)">Guardar</button>
+    </div>
+</div>

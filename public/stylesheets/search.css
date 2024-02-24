@@ -115,7 +115,6 @@ buttons: #414141
 }
 .filter_btn:hover {
     cursor: pointer;
-    background: linear-gradient(to right, #64baed, #4581a4);
 }
 /*----------------------- FIN tabla filtros*/
 

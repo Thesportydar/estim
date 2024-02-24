@@ -3,31 +3,16 @@ const { Game, Review } = require("../models");
 
 module.exports.gameCreate = async (req, res) => {
     try {
-        var game = await Game.find({"appid": req.body.appid});
-
-        if (game.length > 0){
-            res.status(401).json({message: "Game already exists"});
-        } else {
-            console.log(req.body);
-            game = await Game.create(req.body);
-            //game = await new Game({
-            //"appid": 70,
-            //"name": "Half-Life",
-            //"release_date": new Date("1998-11-08T00:00:00.000Z"),
-            //"average_playtime": 1300,
-            //"price": 227.49
-            //});
-            //game = await Game.create({
-                //appid: 50,
-                //name: "atun",
-                //release_date: new Date(Date.now()),
-                //average_playtime: 100,
-                //price: 100000
-            //});
-            console.log(game);
-            game.save();
-            res.status(200).json(game);
+        var lastAppid = await Game.find().sort({"appid": -1}).limit(1);
+        var appid = 0;
+        if (lastAppid){
+            appid = lastAppid[0].appid + 1;
         }
+        req.body.appid = appid;
+        game = await Game.create(req.body);
+        console.log(game);
+        game.save();
+        res.status(200).json(game);
     } catch (error) {
         res.status(500).json(error);
     }
@@ -76,7 +61,7 @@ module.exports.gameUpdateOne = async (req, res) => {
     try {
         if (req.params && req.params.appid){
             var appid = req.params.appid;
-            const game = await Game.updateOne({"appid":appid}, req.body);
+            const game = await Game.updateOne({"appid":appid}, { $set: req.body });
 
             if (game.modifiedCount > 0){
                 res.status(200).json(game);

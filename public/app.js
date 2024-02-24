@@ -17,7 +17,18 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
                 redirectTo: "/"
             });
         }])
-    .controller("indexCtrl", function ($scope, $http, $location) {
+    .service("userService", function () {
+        var userType = "user";
+        return {
+            getUserType: function () {
+                return userType;
+            },
+            setUserType: function (value) {
+                userType = value;
+            }
+        };
+    })
+    .controller("indexCtrl", function ($scope, $http, $location, userService) {
         var refresh = function () {
             $http({
                 method: "GET",
@@ -59,7 +70,6 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
                     publisher: [],
                     release_date: new Date(Date.now()),
                     price: 0,
-                    appid: 0,
                     platforms: [],
                     required_age: 0,
                     positive_ratings: 0,
@@ -106,11 +116,15 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
         $scope.gotoGenre = function (genre) {
             $location.path("/search").search("genre", genre);
         };
+
+        $scope.updateUserType = function() {
+            userService.setUserType($scope.userType);
+        };
         
         $scope.showCatDropdown = false;
         $scope.showGenreDropdown = false;
         $scope.showFeaturedDropdown = false;
-        $scope.userType = "user";
+        $scope.userType = userService.getUserType();
         refresh();
     })
     .controller("mainCtrl", function ($scope, $http, $location, $interval) {
@@ -304,7 +318,7 @@ $scope.gotoGame = function (appid) {
     $location.path("/game/" + appid);
 };
 })
-.controller("gameCtrl", function ($scope, $http, $location, $routeParams, $sce, ngDialog) {
+.controller("gameCtrl", function ($scope, $http, $location, $routeParams, $sce, ngDialog, userService) {
     var refresh = function () {
         $http({
           method: "GET",
@@ -344,6 +358,9 @@ $scope.gotoGame = function (appid) {
     $scope.pcReq =true;
     $scope.macReq =false;
     $scope.linuxReq =false;
+    $scope.isUserAdmin = function() {
+        return userService.getUserType() == "admin";
+    };
 
     $scope.updateCarouselIndex = function(index) {
       $scope.carouselIndex = index; // Actualiza el índice del carrusel
@@ -363,22 +380,57 @@ $scope.gotoGame = function (appid) {
         $scope.$apply();
     };
 
+    var createReq = function(data) {
+        $http({
+            method: "PUT",
+            url: "/game/" + $routeParams.game,
+            data: data
+        }).then(
+            function (response) {
+                console.log("hola, todo ok", response);
+            }
+        );
+    };
+
+    $scope.cleanReq = function() {
+        if ($scope.pcReq) {
+            createReq({"pc_requirements": {}});
+        } else if ($scope.macReq) {
+            createReq({"mac_requirements": {}});
+        } else if ($scope.linuxReq) {
+            createReq({"linux_requirements": {}});
+        };
+        $scope.showPcReq();
+    };
+
     $scope.showPcReq = function() {
         $scope.pcReq = true;
         $scope.macReq = false;
         $scope.linuxReq = false;
+
+        if (!$scope.game.pc_requirements) {
+            createReq({"pc_requirements": {}});
+        };
     };
 
     $scope.showMacReq = function() {
         $scope.pcReq = false;
         $scope.macReq = true;
         $scope.linuxReq = false;
+
+        if (!$scope.game.mac_requirements || $scope.game.mac_requirements.length === 0) {
+            createReq({"mac_requirements": {}});
+        };
     };
 
     $scope.showLinuxReq = function() {
         $scope.pcReq = false;
         $scope.macReq = false;
         $scope.linuxReq = true;
+
+        if (!$scope.game.linux_requirements || $scope.game.linux_requirements.length === 0) {
+            createReq({"linux_requirements": {}});
+        };
     };
 
     $scope.getStarsArray = function(num) {
@@ -446,8 +498,20 @@ $scope.gotoGame = function (appid) {
     };
 
     $scope.showDialogEditShortDesc = function() {
+        $scope.carKey = "short_description";
+        $scope.carValues = $scope.game.short_description;
         ngDialog.open({
-            template: 'views/dialog-edit-short-desc.html', // Define una plantilla para la ventana modal
+            template: 'views/dialog-edit-textarea.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+    $scope.showDialogEditDescription = function() {
+        $scope.carKey = "detailed_description";
+        $scope.carValues = $scope.game.detailed_description;
+        ngDialog.open({
+            template: 'views/dialog-edit-textarea.html', // Define una plantilla para la ventana modal
             controller: 'gameEdit', // Define un controlador para la ventana modal
             scope: $scope, // Usa el scope actual de este controlador para la ventana modal
             className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
@@ -483,6 +547,16 @@ $scope.gotoGame = function (appid) {
             className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
         });
     };
+    $scope.showDialogEditPlatforms = function() {
+        $scope.carKey = "platforms";
+        $scope.carValues = angular.copy($scope.game.platforms);
+        ngDialog.open({
+            template: 'views/dialog-edit-caracteristics.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
     $scope.showDialogEditDeveloper = function() {
         $scope.carKey = "developer";
         $scope.carValues = angular.copy($scope.game.developer);
@@ -511,9 +585,43 @@ $scope.gotoGame = function (appid) {
             className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
         });
     }
+    $scope.showDialogEditRequiredAge = function() {
+        ngDialog.open({
+            template: 'views/dialog-edit-required-age.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
     $scope.showDialogEditPrice = function() {
         ngDialog.open({
             template: 'views/dialog-edit-price.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+    $scope.showDialogEditHeaderImage = function() {
+        ngDialog.open({
+            template: 'views/dialog-edit-header-image.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+    $scope.showDialogEditRequirements = function(key1, key2) {
+        $scope.carKey = key1 + "." + key2;
+        $scope.carValues = angular.copy($scope.game[key1][key2]);
+        ngDialog.open({
+            template: 'views/dialog-edit-textarea.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+    $scope.showDialogEditScreenshots = function() {
+        ngDialog.open({
+            template: 'views/dialog-edit-screenshots.html', // Define una plantilla para la ventana modal
             controller: 'gameEdit', // Define un controlador para la ventana modal
             scope: $scope, // Usa el scope actual de este controlador para la ventana modal
             className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
@@ -598,7 +706,13 @@ $scope.gotoGame = function (appid) {
             function (response) {
                 console.log("hola, todo ok", response);
                 //data is {'<feature>': <value>}, update with relfection
-                    $scope.game[carKey] = carValues;
+                // feature could be nested by dots
+                var keys = carKey.split(".");
+                var obj = $scope.game;
+                for (var i = 0; i < keys.length - 1; i++) {
+                    obj = obj[keys[i]];
+                };
+                obj[keys[keys.length - 1]] = carValues;
             },
             function errorCallback(response) {
                 console.log("hola, todo mal!!", response);
@@ -607,10 +721,14 @@ $scope.gotoGame = function (appid) {
         ngDialog.closeAll();
     };
     $scope.name = $scope.game.name;
-    $scope.shortDesc = $scope.game.short_description;
     $scope.date = $scope.game.release_date;
     $scope.price = $scope.game.price;
-    
+    $scope.headerImage = $scope.game.header_image;
+    $scope.requiredAge = $scope.game.required_age;
+    var ageRangeMap = [0, 3, 7, 12, 16, 18];
+    $scope.ageRange = ageRangeMap.indexOf($scope.requiredAge);
+    $scope.screenshots = $scope.game.screenshots;
+
     if ($scope.carKey == "categories" || $scope.carKey == "genres" || $scope.carKey == "steamspy_tags") {
         $http({
             method: "GET",
@@ -635,7 +753,13 @@ $scope.gotoGame = function (appid) {
                 console.log("hola, todo mal!!", response);
             }
         );
-    }
+    } else if ($scope.carKey == "platforms") {
+        $scope.caracteristics = [
+            { name: "windows", checked: $scope.carValues.includes("windows") },
+            { name: "mac", checked: $scope.carValues.includes("mac") },
+            { name: "linux", checked: $scope.carValues.includes("linux") }
+        ];
+    };
 
     $scope.toggleCaracteristic = function (car) {
         car.checked = !car.checked;
@@ -655,5 +779,27 @@ $scope.gotoGame = function (appid) {
     $scope.add = function (car) {
         $scope.carValues.push(car);
         $scope.car = "";
+    };
+
+    $scope.updateAgeRange = function() {
+        $scope.requiredAge = ageRangeMap[$scope.ageRange];
+    };
+
+    $scope.editScreenshot = function (index) {
+        $scope.screenshotIndex = index;
+        $scope.pathThumbnail = $scope.screenshots[index].path_thumbnail;
+        $scope.pathFull = $scope.screenshots[index].path_full;
+        ngDialog.open({
+            template: 'views/dialog-edit-screenshot.html', // Define una plantilla para la ventana modal
+            controller: 'gameEdit', // Define un controlador para la ventana modal
+            scope: $scope, // Usa el scope actual de este controlador para la ventana modal
+            className: 'ngdialog-theme-default', // Define una clase CSS para la ventana modal
+        });
+    };
+
+    $scope.saveScreenshot = function () {
+        $scope.screenshots[$scope.screenshotIndex].path_thumbnail = $scope.pathThumbnail;
+        $scope.screenshots[$scope.screenshotIndex].path_full = $scope.pathFull;
+        $scope.edit("screenshots", $scope.screenshots);
     };
 });

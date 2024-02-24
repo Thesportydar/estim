@@ -1,0 +1,10 @@
+<div class="ngdialog-message">
+    <h3 class="modal-title">Editar imagen</h3>
+    <div class="modal-body">
+        <img class="edit-header-image" ng-src="{{headerImage}}" alt="{{name}}"/>
+        <input type="text" class="input-review-title input-caracteristic" ng-model="headerImage" placeholder="Ingrese el URL">
+    </div>
+    <div class="modal-footer">
+        <button class="btn-publish-review" ng-click="edit('header_image', headerImage)">Guardar</button>
+    </div>
+</div>

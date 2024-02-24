@@ -58,6 +58,7 @@ buttons: #414141
 /*--------------------Carousel de media*/
 .carousel-container {
     width: 100%;
+    margin-bottom: 10px;
 }
 
 ul[rn-carousel] {
@@ -77,18 +78,25 @@ ul[rn-carousel] {
 /*--------------------FIN Carousel de media*/
 
 /*--------------------miniaturas*/
+.thumbnails-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+}
+
 .thumbnails {
     display: flex;
-    justify-content:center;
+    justify-content:flex-start;
     flex-wrap: nowrap;
     height: auto;
-    overflow: auto;
-    max-width: 100%;
+    overflow:auto;
+    border-radius: 5px;
 }
 
 .thumbnail {
     cursor: pointer;
-    padding: 3px;
+    padding-right: 3px;
 }
 
 .thumbnail img {
@@ -194,7 +202,7 @@ ul[rn-carousel] {
 
 .btn-delete-game button {
     border: none;
-    background-color: #202020;
+    background: none;
     cursor: pointer;
     color: #f5f5f5;
     padding: 5px;
@@ -202,14 +210,15 @@ ul[rn-carousel] {
     border-radius: 5px;
 }
 
+.btn-del-req {
+    background-color: #414141 !important;
+}
+
 .btn-delete-game button:hover {
-    background-color: red;
+    background-color: red !important;
 }
 
 .edit-button {
-    visibility: hidden;
-    position: absolute;
-    right: -25px;
     width: 25px;
     height: 25px;
     text-align: center;
@@ -222,16 +231,6 @@ ul[rn-carousel] {
 
 .edit-button:hover {
     background: linear-gradient(to right, #64baed, #4581a4);
-}
-
-.game-info:hover .edit-button,
-.price:hover .edit-button,
-.summary-header-image:hover .edit-button,
-.game-header h1:hover .edit-button,
-.short-description p:hover .edit-button,
-.characteristic:hover .edit-button,
-.description-container:hover .edit-button {
-    visibility: visible;
 }
 /*--------------------FIN RESUMEN lateral*/
 
@@ -511,3 +510,17 @@ ul[rn-carousel] {
 .btn-edit-review:hover {
     background: linear-gradient(to right, #64baed, #4581a4);
 }
+
+.placeholder-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #aaa; /* Color del placeholder */
+    pointer-events: none; /* Evita que el span intercepte eventos */
+    display: none;
+  }
+  
+  .del-button:focus .placeholder {
+    display: block;
+  }

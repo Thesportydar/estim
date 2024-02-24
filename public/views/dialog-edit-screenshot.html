@@ -1,0 +1,14 @@
+<div class="ngdialog-message">
+    <h3 class="modal-title">Editar imagen</h3>
+    <div class="modal-body">
+        <img class="edit-header-image" ng-src="{{pathThumbnail}}" alt="{{index}}"/>
+        <label>Miniatura:</label>
+        <input type="text" class="input-review-title input-caracteristic" ng-model="pathThumbnail" placeholder="Ingrese el URL">
+        <img class="edit-header-image" ng-src="{{pathFull}}" alt="{{index}}"/>
+        <label>Imagen completa:</label>
+        <input type="text" class="input-review-title input-caracteristic" ng-model="pathFull" placeholder="Ingrese el URL">
+    </div>
+    <div class="modal-footer">
+        <button class="btn-publish-review" ng-click="saveScreenshot()">Guardar</button>
+    </div>
+</div>

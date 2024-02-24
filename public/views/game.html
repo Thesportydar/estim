@@ -2,7 +2,7 @@
     <div class="game-header">
         <h1>
             {{game.name}}
-            <button class="edit-button" ng-click="showDialogEditTitle()">✎</button>
+            <button class="edit-button" ng-click="showDialogEditTitle()" ng-if="isUserAdmin()">✎</button>
         </h1>
         <div class="stars">
             <!-- Estrellas completas -->
@@ -25,17 +25,20 @@
                         </li>
                     </ul>
                 </div>
-                <div class="thumbnails">
-                    <div class="thumbnail" ng-repeat="screenshot in game.screenshots" ng-click="updateCarouselIndex(screenshot.id)" ng-class="{active: screenshot.id == carouselIndex}">
-                        <img ng-src="{{screenshot.path_thumbnail}}" class="thumbnail_image" alt="{{game.name}} Screenshot {{screenshot.id}}" />
+                <div class="thumbnails-container">
+                    <div class="thumbnails">
+                      <div class="thumbnail" ng-repeat="screenshot in game.screenshots" ng-click="updateCarouselIndex(screenshot.id)" ng-class="{active: screenshot.id == carouselIndex}">
+                            <img ng-src="{{screenshot.path_thumbnail}}" class="thumbnail_image" alt="{{game.name}} Screenshot {{screenshot.id}}" />
+                     </div>
                     </div>
                 </div>
+                <button class="edit-button" ng-click="showDialogEditScreenshots()" ng-if="isUserAdmin()">✎</button>
             </div>
             <div class="content">
                 <div class="short-description">
                     <p>
                         {{game.short_description}}
-                        <button class="edit-button" ng-click="showDialogEditShortDesc()">✎</button>
+                        <button class="edit-button" ng-click="showDialogEditShortDesc()" ng-if="isUserAdmin()">✎</button>
                     </p>
                 </div>
                 <div class="characteristic">
@@ -43,45 +46,53 @@
                     <div class="characteristic-values">
                         <p ng-repeat="cat in game.categories">{{cat}}</p>
                     </div>
-                    <button class="edit-button" ng-click="showDialogEditCat()">✎</button>
+                    <button class="edit-button" ng-click="showDialogEditCat()" ng-if="isUserAdmin()">✎</button>
                 </div>
                 <div class="characteristic">
                     <h3>Generos: </h3>
                     <div class="characteristic-values">
                         <p ng-repeat="gen in game.genres">{{gen}}</p>
                     </div>
-                    <button class="edit-button" ng-click="showDialogEditGenre()">✎</button>
+                    <button class="edit-button" ng-click="showDialogEditGenre()" ng-if="isUserAdmin()">✎</button>
                 </div>
                 <div class="characteristic">
                     <h3>Etiquetas: </h3>
                     <div class="characteristic-values">
                         <p ng-repeat="tag in game.steamspy_tags">{{tag}}</p>
                     </div>
-                    <button class="edit-button" ng-click="showDialogEditTag()">✎</button>
+                    <button class="edit-button" ng-click="showDialogEditTag()" ng-if="isUserAdmin()">✎</button>
                 </div>
                 <div class="description-container" ng-class="{ 'show-more-desc': showMoreDesc }">
-                    <div class="description" ng-bind-html="trustedHtml(game.detailed_description)">
-                    </div>
-                    <button class="edit-button">✎</button>
+                    <button class="edit-button" ng-click="showDialogEditDescription()" ng-if="isUserAdmin()">✎</button>
+                    <div class="description" ng-bind-html="trustedHtml(game.detailed_description)"></div>
                 </div>
                 <button class="btn-ver-mas-desc" ng-click="toggleShowMoreDesc()" ng-bind="showMoreDesc ? 'Ver menos' : 'Ver más'"></button>
                 <h1>Requerimientos</h1>
                 <div class="requirements-container">
                     <div class="header-requirements">
-                        <h2 ng-click="showPcReq()" ng-if="!(game.pc_requirements && game.pc_requirements.length === 0)" ng-class="{ 'selected': pcReq }">Windows</h2>
-                        <h2 ng-click="showMacReq()" ng-if="!(game.mac_requirements && game.mac_requirements.length === 0)" ng-class="{ 'selected': macReq }">Mac</h2>
-                        <h2 ng-click="showLinuxReq()" ng-if="!(game.linux_requirements && game.linux_requirements.length === 0)" ng-class="{ 'selected': linuxReq }">Linux</h2>
+                        <h2 ng-click="showPcReq()" ng-if="game.pc_requirements && game.pc_requirements.length !== 0 || isUserAdmin()" ng-class="{ 'selected': pcReq }">Windows</h2>
+                        <h2 ng-click="showMacReq()" ng-if="game.mac_requirements && game.mac_requirements.length !== 0 || isUserAdmin()" ng-class="{ 'selected': macReq }">Mac</h2>
+                        <h2 ng-click="showLinuxReq()" ng-if="game.linux_requirements && game.linux_requirements.length !== 0 || isUserAdmin()" ng-class="{ 'selected': linuxReq }">Linux</h2>
+                    </div>
+                    <div class="btn-delete-game" ng-if="isUserAdmin()">
+                        <button class="btn-del-req" ng-click="cleanReq()" ng-if="isUserAdmin()">Eliminar Requerimientos</button>
                     </div>
                     <div class="requirements" ng-if="pcReq">
+                        <button class="edit-button" ng-click="showDialogEditRequirements('pc_requirements','minimum')" ng-if="isUserAdmin()">✎</button>
                         <div class="minimum-requirements" ng-bind-html="trustedHtml(game.pc_requirements.minimum)"></div>
+                        <button class="edit-button" ng-click="showDialogEditRequirements('pc_requirements','recommended')" ng-if="isUserAdmin()">✎</button>
                         <div class="recommended-requirements" ng-bind-html="trustedHtml(game.pc_requirements.recommended)"></div>
                     </div>
                     <div class="requirements" ng-if="macReq">
+                        <button class="edit-button" ng-click="showDialogEditRequirements('mac_requirements','minimum')" ng-if="isUserAdmin()">✎</button>
                         <div class="minimum-requirements" ng-bind-html="trustedHtml(game.mac_requirements.minimum)"></div>
+                        <button class="edit-button" ng-click="showDialogEditRequirements('mac_requirements','recommended')" ng-if="isUserAdmin()">✎</button>
                         <div class="recommended-requirements" ng-bind-html="trustedHtml(game.mac_requirements.recommended)"></div>
                     </div>
                     <div class="requirements" ng-if="linuxReq">
+                        <button class="edit-button" ng-click="showDialogEditRequirements('linux_requirements','minimum')" ng-if="isUserAdmin()">✎</button>
                         <div class="minimum-requirements" ng-bind-html="trustedHtml(game.linux_requirements.minimum)"></div>
+                        <button class="edit-button" ng-click="showDialogEditRequirements('linux_requirements','recommended')" ng-if="isUserAdmin()">✎</button>
                         <div class="recommended-requirements" ng-bind-html="trustedHtml(game.linux_requirements.recommended)"></div>
                     </div>
                 </div>
@@ -112,8 +123,8 @@
                         <div class="review-body">
                             <div class="review-body-upper">
                                 <h2>{{review.title}}</h2>
-                                <button class="btn-edit-review" ng-click="showEditReviewModal(review)">✎</button>
-                                <button class="btn-delete-review" ng-click="deleteReview(review.review_id)">X</button>
+                                <button class="btn-edit-review" ng-click="showEditReviewModal(review)" ng-if="isUserAdmin()">✎</button>
+                                <button class="btn-delete-review" ng-click="deleteReview(review.review_id)" ng-if="isUserAdmin()">X</button>
                             </div>
                             <p>{{review.text}}</p>
                         </div>
@@ -125,32 +136,32 @@
             <div class="summary">
                 <div class="summary-header-image">
                     <img ng-src="{{game.header_image}}" alt="{{game.name}}"/>
-                    <button class="edit-button">✎</button>
+                    <button class="edit-button" ng-click="showDialogEditHeaderImage()" ng-if="isUserAdmin()">✎</button>
                 </div>
                 <div class="game-info">
                     <p class="game-info-key">Desarrollador: </p>
                     <p class="game-info-value" ng-repeat="dev in game.developer" ng-if="$last">{{dev}}</p>
                     <p class="game-info-value" ng-repeat="dev in game.developer" ng-if="!$last">| {{dev}}</p>
-                    <button class="edit-button" ng-click="showDialogEditDeveloper()">✎</button>
+                    <button class="edit-button" ng-click="showDialogEditDeveloper()" ng-if="isUserAdmin()">✎</button>
                 </div>
                 <span class="separator"></span>
                 <div class="game-info">
                     <p class="game-info-key">Editor: </p>
                     <p class="game-info-value" ng-repeat="pub in game.publisher" ng-if="$last">{{pub}}</p>
                     <p class="game-info-value" ng-repeat="pub in game.publisher" ng-if="!$last">| {{pub}}</p>
-                    <button class="edit-button" ng-click="showDialogEditPublisher()">✎</button>
+                    <button class="edit-button" ng-click="showDialogEditPublisher()" ng-if="isUserAdmin()">✎</button>
                 </div>
                 <span class="separator"></span>
                 <div class="game-info">
                     <p class="game-info-key">Fecha de lanzamiento: </p>
                     <p class="game-info-value">{{game.release_date | date:"dd MMM yyyy"}}</p>
-                    <button class="edit-button" ng-click=showDialogEditReleaseDate()>✎</button>
+                    <button class="edit-button" ng-click="showDialogEditReleaseDate()" ng-if="isUserAdmin()">✎</button>
                 </div>
                 <span class="separator"></span>
                 <div class="game-info">
                     <p class="game-info-key">Edad: </p>
                     <p class="game-info-value">{{game.required_age}}</p>
-                    <button class="edit-button">✎</button>
+                    <button class="edit-button" ng-click="showDialogEditRequiredAge()" ng-if="isUserAdmin()">✎</button>
                 </div>
                 <span class="separator"></span>
                 <div class="game-info">
@@ -159,16 +170,16 @@
                         <p ng-repeat="plat in game.platforms" ng-if="$last">{{plat}}</p>
                         <p ng-repeat="plat in game.platforms" ng-if="!$last">| {{plat}}</p>
                     </div>
-                    <button class="edit-button">✎</button>
+                    <button class="edit-button" ng-click="showDialogEditPlatforms()" ng-if="isUserAdmin()">✎</button>
                 </div>
                 <span class="separator"></span>
                 <p class="price">
                     {{game.price | currency:"US$ " }}
-                    <button class="edit-button" ng-click=showDialogEditPrice()>✎</button>
+                    <button class="edit-button" ng-click="showDialogEditPrice()" ng-if="isUserAdmin()">✎</button>
                 </p>
                 <a href="https://store.steampowered.com/app/{{game.appid}}" class="btn-buy-now">Comprar Ahora</a>
                 <div class="btn-delete-game">
-                    <button class="btn-delete-game" ng-click="deleteGame()">Eliminar Juego</button>
+                    <button class="btn-delete-game" ng-click="deleteGame()" ng-if="isUserAdmin()">Eliminar Juego</button>
                 </div>
             </div>
         </div>

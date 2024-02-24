@@ -61,7 +61,7 @@
                     <h1 ng-if="userType == 'admin'" ng-click="newGame()">AGREGAR</h1>
                 </div>
                 <div class="user-type-selector">
-                    <select class="user-type" ng-model="userType">
+                    <select class="user-type" ng-model="userType" ng-change="updateUserType()">
                         <option value="user">Usuario</option>
                         <option value="admin">Administrador</option>
                     </select>

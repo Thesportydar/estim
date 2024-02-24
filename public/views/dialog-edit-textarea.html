@@ -1,0 +1,9 @@
+<div class="ngdialog-message">
+    <h3 class="modal-title">Editar {{carKey}}</h3>
+    <div class="modal-body">
+        <textarea class="input-review-desc" ng-model="carValues" placeholder="{{carKey}}"></textarea>
+    </div>
+    <div class="modal-footer">
+        <button class="btn-publish-review" ng-click="edit(carKey, carValues)">Guardar</button>
+    </div>
+</div>

@@ -20,7 +20,26 @@ const gameSchema = new Schema({
     total_ratings: Number,
     diff_ratings: Number,
     owners: Number,
-    price: Number
+    price: Number,
+    header_image: String,
+    required_age: Number,
+    pc_requirements: {
+        minimum: String,
+        recommended: String
+    },
+    mac_requirements: {
+        minimum: String,
+        recommended: String
+    },
+    linux_requirements: {
+        minimum: String,
+        recommended: String
+    },
+    screenshots: {
+        id: Number,
+        path_thumbnail: String,
+        path_full: String
+    }
 });
     
 const Game = mongoose.model('Game', gameSchema);
