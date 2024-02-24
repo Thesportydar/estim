@@ -107,7 +107,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
         };
 
         $scope.gotoGame = function (appid) {
-            $location.path("/game/" + appid);
+            $location.path("/game/" + appid).search({});
             window.scrollTo(0, 0);
         };
         
@@ -286,7 +286,8 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
             $scope.categories = response.data.categories.map(function (category) {
                 return { name: category, checked: false };
             });
-           // refresh();
+            console.log("refresh1");
+            refresh();
         },
         function errorCallback(response) {
             console.log("hola, todo mal!!", response);
@@ -378,8 +379,8 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
     } else {
       $scope.lims[li] = 7;
     }
-    console.log("refresh3");
-    refresh();
+    /*console.log("refresh3");
+    refresh();*/
   };
   $scope.filterBy = function (fi, fil) {
     if (fil.checked) {

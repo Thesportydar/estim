@@ -61,7 +61,7 @@ body {
     display:flex;
     width: 100%;
     height: 120px;
-    justify-content: left;
+    justify-content: center;
     position: sticky;
     top: 0;
     z-index: 1;
@@ -71,14 +71,13 @@ body {
     display: flex;
     align-items: center;
     width: 75%;
-    padding: 10px;
     box-sizing: border-box;
 }
 
 .logo {
     width: 100px;
     height: auto;
-    padding-right: 20px;
+    margin:0;
 }
 .logo:hover {
     cursor: pointer;
@@ -136,8 +135,7 @@ body {
 .user-type-selector {
     display: flex;
     align-items: center;
-    position: absolute;
-    right: 35px;
+    margin-left: auto;
 }
 
 select {
