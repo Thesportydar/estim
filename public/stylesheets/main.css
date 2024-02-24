@@ -117,6 +117,10 @@ buttons: #414141
     font-weight: bold;
 }
 
+.main-game-large a {
+    cursor: pointer;
+}
+
 /*--------------------FIN Juego seleccionado*/
 
 /*--------------------Carousel de media*/

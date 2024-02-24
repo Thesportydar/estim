@@ -8,7 +8,7 @@ var routesIndex = require('./routes/index');
 var routesGame = require('./routes/game');
 
 var mongoose = require('mongoose');
-const url = 'mongodb://tsd:root@localhost:27017/estim';
+const url = 'mongodb://tsd:root@181.1.96.82:27017/estim';
 //mongoose.Promise = global.Promise;
 
 var app = express();

@@ -3,8 +3,14 @@ const { Game, Review } = require("../models");
 module.exports.gameSearch = async (req, res) => {
     try {
         const filters = {};
+
+        propertyName = req.query.propertyName;
+        const paginaActual = parseInt(req.query.page) || 1;
+        const resultadosPorPagina = req.query.limit;
+        const salto = (paginaActual - 1) * resultadosPorPagina;
+
         if (req.query.name) {
-            filters.name = { "$regex": "^" + req.query.name, "$options": "i" }
+            filters.name = { "$regex": req.query.name, "$options": "i" }
         }
         if (req.query.categories && req.query.categories.length > 0) {
             filters.categories = { "$all": req.query.categories }
@@ -15,12 +21,20 @@ module.exports.gameSearch = async (req, res) => {
         if (req.query.tags && req.query.tags.length > 0) {
             filters.steamspy_tags = { "$all": req.query.tags }
         }
-        if (req.query.priceRange) {
-            filters.price = { "$lte": req.query.priceRange }
+        if (req.query.minPrice && req.query.maxPrice) {
+            filters.price = { "$gte": req.query.minPrice, "$lte": req.query.maxPrice }
         }
         console.log(filters);
-        const game = await Game.find(filters).limit(200);
-        res.status(200).json(game);
+
+        const cantidadResultados = await Game.countDocuments(filters);
+
+        let games;
+        if (req.query.reverse === "false" ) {
+            games = await Game.find(filters).skip(salto).limit(resultadosPorPagina).sort({[propertyName]: 1});
+        } else {
+            games = await Game.find(filters).skip(salto).limit(resultadosPorPagina).sort({[propertyName]: -1});
+        }
+        res.status(200).json({games, cantidadResultados, paginaActual});
     } catch (error) {
         res.status(404).json(error);
     }
@@ -83,12 +97,17 @@ module.exports.initSearch = async (req, res) => {
         const genres = await getGenres();
         const tags = await getSteamSpyTags();
         const maxPrice = await getMaxPrice();
-        console.log("price ok");
+        const minPrice = 0;
+        const reverse = false;
+        const propertyName = req.query.propertyName;
         const json = {
             categories,
             genres,
             tags,
-            maxPrice
+            minPrice,
+            maxPrice,
+            reverse,
+            propertyName
         }
         res.status(200).json(json);
     } catch (error) {
