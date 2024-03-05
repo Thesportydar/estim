@@ -196,6 +196,11 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
       $scope.$on('$destroy', function () {
           stopAutoScroll();
       });
+
+      $scope.gotoPublisher = function (publisher) {
+        $location.path("/search").search("publisher", publisher);
+        window.scrollTo(0, 0);
+    };
     })
     .controller("searchCtrl", function ($scope, $http, $location) {
   console.log("$http", $http);
@@ -228,6 +233,10 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
         }
     };
 
+    if ($location.search().publisher) {
+        $scope.publisher = $location.search().publisher;
+    };
+
     $http({
       method: "GET",
       url: "/search",
@@ -236,6 +245,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
         categories: $scope.filters[0],
         genres: $scope.filters[1],
         tags: $scope.filters[2],
+        publisher: $scope.publisher,
         minPrice: $scope.minPrice,
         maxPrice: $scope.maxPrice,
         reverse: $scope.reverse,

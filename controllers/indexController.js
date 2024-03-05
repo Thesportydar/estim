@@ -21,6 +21,9 @@ module.exports.gameSearch = async (req, res) => {
         if (req.query.tags && req.query.tags.length > 0) {
             filters.steamspy_tags = { "$all": req.query.tags }
         }
+        if (req.query.publisher) {
+            filters.publisher = { "$regex": "^" + req.query.publisher, "$options": "i" }
+        }
         if (req.query.minPrice && req.query.maxPrice) {
             filters.price = { "$gte": req.query.minPrice, "$lte": req.query.maxPrice }
         }

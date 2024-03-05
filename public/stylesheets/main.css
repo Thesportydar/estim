@@ -159,6 +159,11 @@ ul[rn-carousel] {
     border-radius: 5px; /* Añade bordes redondeados */
 }
 
+.image-container img:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
 .image-title {
     margin-top: 5px; /* Ajusta el espacio entre la imagen y el título*/
     font-size: 14px; /* Ajusta el tamaño del título*/
