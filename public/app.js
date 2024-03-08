@@ -323,12 +323,14 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
 
   $scope.previousPage = function() {
     scrollToTop();
+    $scope.search_buffer = $scope.search;
     $scope.currentPage--;
     refresh();
   };
 
   $scope.nextPage = function() {
     scrollToTop();
+    $scope.search_buffer = $scope.search;
     $scope.currentPage++;
     refresh();
   };
@@ -340,7 +342,9 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
   };
 
   $scope.cleanSearch= function (){
+    $scope.search_buffer = '';
     $scope.search = '';
+    $scope.currentPage = 1;
     refresh();
   }
 
@@ -357,10 +361,21 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
     for (let i = 0; i < $scope.tags.length; i++) {
       $scope.tags[i].checked = false;
     }
+
+    $location.search({
+        category: null,
+        genre: null,
+        tags: null,
+        publisher: null
+    });
+
+    $scope.currentPage = 1;
+
     refresh();
   }
 
   $scope.search = "";
+  $scope.search_buffer = $scope.search;
   $scope.filters = [[], [], []];
 
   $scope.lims = [7, 7, 7];
@@ -379,6 +394,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
   };
 
   $scope.searchBy = function () {
+    $scope.search = $scope.search_buffer;
     console.log("refresh2");
     $scope.currentPage = 1;
     refresh();

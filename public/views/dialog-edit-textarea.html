@@ -1,9 +1,11 @@
-<div class="ngdialog-message">
-    <h3 class="modal-title">Editar {{carKey}}</h3>
-    <div class="modal-body">
-        <textarea class="input-review-desc" ng-model="carValues" placeholder="{{carKey}}"></textarea>
-    </div>
-    <div class="modal-footer">
-        <button class="btn-publish-review" ng-click="edit(carKey, carValues)">Guardar</button>
+<div ng-init="atributoNombres = {'short_description': 'descripcion corta', 'detailed_description': 'descripcion detallada', 'pc_requirements.minimum': 'requerimientos minimos de Windows', 'pc_requirements.recommended': 'requerimientos recomendados de Windows', 'mac_requirements.minimum': 'requerimientos minimos de MAC', 'mac_requirements.recommended': 'requerimientos recomendados de MAC', 'linux_requirements.minimum': 'requerimientos minimos de Linux', 'linux_requirements.recommended': 'requerimientos recomendados de Linux'}" >
+    <div class="ngdialog-message">
+        <h3 class="modal-title">Editar {{atributoNombres[carKey] || carKey}}</h3>
+        <div class="modal-body">
+            <textarea class="input-review-desc" ng-model="carValues" placeholder="{{carKey}}"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-publish-review" ng-click="edit(carKey, carValues)">Guardar</button>
+        </div>
     </div>
 </div>

@@ -1,15 +1,17 @@
-<div class="ngdialog-message">
-    <h3 class="modal-title">Editar {{carKey}}</h3>
-    <div class="modal-body">
-        <div class="dialog-caracteristics-container">
-            <div class="dialog-caracteristics" ng-repeat="car in caracteristics">
-                <div class="caracteristic-button" ng-click="toggleCaracteristic(car)" ng-class="{'checked-class': car.checked}">
-                    <p>{{car.name}}</p>
+<div ng-init="atributoNombres = {'steamspy_tags': 'etiquetas', 'categories': 'categorias', 'genres': 'generos', 'platforms': 'plataformas'}">
+    <div class="ngdialog-message">
+        <h3 class="modal-title">Editar {{atributoNombres[carKey] || carKey}}</h3>
+        <div class="modal-body">
+            <div class="dialog-caracteristics-container">
+                <div class="dialog-caracteristics" ng-repeat="car in caracteristics">
+                    <div class="caracteristic-button" ng-click="toggleCaracteristic(car)" ng-class="{'checked-class': car.checked}">
+                        <p>{{car.name}}</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn-publish-review" ng-click="edit(carKey, carValues)">Guardar</button>
+        <div class="modal-footer">
+            <button class="btn-publish-review" ng-click="edit(carKey, carValues)">Guardar</button>
+        </div>
     </div>
 </div>
