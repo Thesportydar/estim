@@ -216,7 +216,43 @@
     height: auto;
 }
 
+.add-screenshot-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none !important;
+}
+
+.add-screenshot-button:hover {
+    background: linear-gradient(to right, #64baed, #4581a4);
+}
+
+.add-screenshot-button img {
+    width: 50px;
+    height: 50px;
+    filter: invert(100%);
+}
+
 .modal-body label {
     color: #9a9a9a;
     font-size: 14px;
+}
+
+.btn-delete-screenshot {
+    height: 100%;
+    width: 25%;
+    margin: 10px auto;
+}
+
+.btn-delete-screenshot button {
+    background: red;
+    color: #f5f5f5;
+    font-size: 20px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+.btn-delete-screenshot button:hover {
+    opacity: 0.8;
 }

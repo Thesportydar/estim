@@ -35,11 +35,11 @@ const gameSchema = new Schema({
         minimum: String,
         recommended: String
     },
-    screenshots: {
+    screenshots: [{
         id: Number,
         path_thumbnail: String,
         path_full: String
-    }
+    }]
 });
     
 const Game = mongoose.model('Game', gameSchema);

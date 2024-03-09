@@ -7,6 +7,9 @@
         <img class="edit-header-image" ng-src="{{pathFull}}" alt="{{index}}"/>
         <label>Imagen completa:</label>
         <input type="text" class="input-review-title input-caracteristic" ng-model="pathFull" placeholder="Ingrese el URL">
+        <div class="btn-delete-screenshot">
+            <button ng-click="deleteScreenshot()">Eliminar</button>
+        </div>
     </div>
     <div class="modal-footer">
         <button class="btn-publish-review" ng-click="saveScreenshot()">Guardar</button>

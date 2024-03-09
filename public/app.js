@@ -718,6 +718,9 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
     };
     $scope.showDialogEditRequirements = function(key1, key2) {
         $scope.carKey = key1 + "." + key2;
+        if (!$scope.game[key1]) {
+            $scope.game[key1] = {};
+        };
         $scope.carValues = angular.copy($scope.game[key1][key2]);
         ngDialog.open({
             template: 'views/dialog-edit-textarea.html', // Define una plantilla para la ventana modal
@@ -892,10 +895,26 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
         $scope.requiredAge = ageRangeMap[$scope.ageRange];
     };
 
-    $scope.editScreenshot = function (index) {
-        $scope.screenshotIndex = index;
-        $scope.pathThumbnail = $scope.screenshots[index].path_thumbnail;
-        $scope.pathFull = $scope.screenshots[index].path_full;
+    $scope.addScreenshot = function () {
+        // create a new screenshot object with empty paths and with the next id
+        var screenshot = {
+            id: $scope.screenshots.length,
+            path_thumbnail: "",
+            path_full: ""
+        };
+        $scope.screenshots.push(screenshot);
+        $scope.edit("screenshots", $scope.screenshots);
+    };
+
+    $scope.deleteScreenshot = function () {
+        $scope.screenshots.splice($scope.screenshotIndex, 1);
+        $scope.edit("screenshots", $scope.screenshots);
+    };
+
+    $scope.editScreenshot = function (ix) {
+        $scope.screenshotIndex = ix;
+        $scope.pathThumbnail = $scope.screenshots[ix].path_thumbnail;
+        $scope.pathFull = $scope.screenshots[ix].path_full;
         ngDialog.open({
             template: 'views/dialog-edit-screenshot.html', // Define una plantilla para la ventana modal
             controller: 'gameEdit', // Define un controlador para la ventana modal
