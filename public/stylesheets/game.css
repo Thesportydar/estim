@@ -155,6 +155,7 @@ ul[rn-carousel] {
 
 .game-info p {
     margin: 0px;
+    flex-wrap: wrap;
     padding-left: 5px;
     font-size: 18px;
 }

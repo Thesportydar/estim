@@ -70,12 +70,9 @@
                 <h1>Requerimientos</h1>
                 <div class="requirements-container">
                     <div class="header-requirements">
-                        <h2 ng-click="showPcReq()" ng-if="game.pc_requirements && game.pc_requirements.length !== 0 || isUserAdmin()" ng-class="{ 'selected': pcReq }">Windows</h2>
-                        <h2 ng-click="showMacReq()" ng-if="game.mac_requirements && game.mac_requirements.length !== 0 || isUserAdmin()" ng-class="{ 'selected': macReq }">Mac</h2>
-                        <h2 ng-click="showLinuxReq()" ng-if="game.linux_requirements && game.linux_requirements.length !== 0 || isUserAdmin()" ng-class="{ 'selected': linuxReq }">Linux</h2>
-                    </div>
-                    <div class="btn-delete-game" ng-if="isUserAdmin()">
-                        <button class="btn-del-req" ng-click="cleanReq()" ng-if="isUserAdmin()">Eliminar Requerimientos</button>
+                        <h2 ng-click="showPcReq()" ng-if="isWindowsPresent" ng-class="{ 'selected': pcReq }">Windows</h2>
+                        <h2 ng-click="showMacReq()" ng-if="isMacPresent" ng-class="{ 'selected': macReq }">Mac</h2>
+                        <h2 ng-click="showLinuxReq()" ng-if="isLinuxPresent" ng-class="{ 'selected': linuxReq }">Linux</h2>
                     </div>
                     <div class="requirements" ng-if="pcReq">
                         <button class="edit-button" ng-click="showDialogEditRequirements('pc_requirements','minimum')" ng-if="isUserAdmin()">✎</button>

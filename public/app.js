@@ -426,6 +426,12 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
     };
 })
 .controller("gameCtrl", function ($scope, $http, $location, $routeParams, $sce, ngDialog, userService) {
+    var calculatePlatforms = function () {
+        $scope.isWindowsPresent = $scope.game.platforms.includes("windows");
+        $scope.isMacPresent = $scope.game.platforms.includes("mac");
+        $scope.isLinuxPresent = $scope.game.platforms.includes("linux");
+    };
+
     var refresh = function () {
         $http({
           method: "GET",
@@ -440,6 +446,8 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
                 $scope.fullStars = Math.floor($scope.percentage / 20);
                 $scope.halfStars = $scope.percentage % 20 >= 10 ? 1 : 0;
                 $scope.emptyStars = 5 - $scope.fullStars - $scope.halfStars;
+
+                calculatePlatforms();
             },
             function errorCallback(response) {
                 console.log("hola, todo mal!!", response);
@@ -499,18 +507,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
         );
     };
 
-    $scope.cleanReq = function() {
-        if ($scope.pcReq) {
-            createReq({"pc_requirements": {}});
-        } else if ($scope.macReq) {
-            createReq({"mac_requirements": {}});
-        } else if ($scope.linuxReq) {
-            createReq({"linux_requirements": {}});
-        };
-        $scope.showPcReq();
-    };
-
-    $scope.showPcReq = function() {
+        $scope.showPcReq = function() {
         $scope.pcReq = true;
         $scope.macReq = false;
         $scope.linuxReq = false;
