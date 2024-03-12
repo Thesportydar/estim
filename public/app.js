@@ -425,12 +425,17 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
         refresh();
     };
 })
-.controller("gameCtrl", function ($scope, $http, $location, $routeParams, $sce, ngDialog, userService) {
+.controller("gameCtrl", function ($scope, $http, $location, $routeParams, $sce, ngDialog, userService, $rootScope) {
     var calculatePlatforms = function () {
         $scope.isWindowsPresent = $scope.game.platforms.includes("windows");
         $scope.isMacPresent = $scope.game.platforms.includes("mac");
         $scope.isLinuxPresent = $scope.game.platforms.includes("linux");
+        console.log("los valores son", $scope.isWindowsPresent, $scope.isMacPresent, $scope.isLinuxPresent);
     };
+
+    $rootScope.$on("gamePlatformsUpdated", function () {
+        calculatePlatforms();
+    });
 
     var refresh = function () {
         $http({
@@ -473,6 +478,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
     $scope.pcReq =true;
     $scope.macReq =false;
     $scope.linuxReq =false;
+
     $scope.isUserAdmin = function() {
         return userService.getUserType() == "admin";
     };
@@ -801,7 +807,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
         console.log("Recomendado = " +  $scope.recomendado);
     };
 })
-.controller("gameEdit", function ($scope, $http, $routeParams, ngDialog) {
+.controller("gameEdit", function ($scope, $http, $routeParams, ngDialog, $rootScope) {
     $scope.edit = function (carKey, carValues) {
         var data = {};
         data[carKey] = carValues;
@@ -820,6 +826,8 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
                     obj = obj[keys[i]];
                 };
                 obj[keys[keys.length - 1]] = carValues;
+                
+                $rootScope.$emit('gamePlatformsUpdated');
             },
             function errorCallback(response) {
                 console.log("hola, todo mal!!", response);
