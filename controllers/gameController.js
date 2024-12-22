@@ -1,5 +1,6 @@
 const { model } = require("mongoose");
-const { Game, Review } = require("../models");
+const Game = require("../models/Game");
+const Review = require("../models/Review");
 
 module.exports.gameCreate = async (req, res) => {
     try {
@@ -9,8 +10,8 @@ module.exports.gameCreate = async (req, res) => {
             appid = lastAppid[0].appid + 1;
         }
         req.body.appid = appid;
-        game = await Game.create(req.body);
-        console.log(game);
+        const game = await Game.create(req.body);
+        //console.log(game);
         game.save();
         res.status(200).json(game);
     } catch (error) {
@@ -23,7 +24,7 @@ module.exports.gameReadOne = async (req, res) => {
         if (req.params && req.params.appid){
             var appid = req.params.appid;
             var game = await Game.findOne({"appid": appid});
-            console.log(game);
+            //console.log(game);
 
             if (game){
                 res.status(200).json(game);

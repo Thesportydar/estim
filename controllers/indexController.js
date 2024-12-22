@@ -1,4 +1,4 @@
-const { Game, Review } = require("../models");
+const Game = require("../models/Game");
 
 module.exports.gameSearch = async (req, res) => {
     try {
@@ -27,7 +27,7 @@ module.exports.gameSearch = async (req, res) => {
         if (req.query.minPrice && req.query.maxPrice) {
             filters.price = { "$gte": req.query.minPrice, "$lte": req.query.maxPrice }
         }
-        console.log(filters);
+        //console.log(filters);
 
         const cantidadResultados = await Game.countDocuments(filters);
 

@@ -1,26 +1,21 @@
 {
   "name": "estim-project",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "angular": "^1.8.3",
-    "angular-carousel": "^1.1.0",
-    "angular-route": "^1.8.3",
-    "angular-touch": "^1.8.3",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.7",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "mongoose": "^7.3.1",
     "morgan": "^1.10.0",
-    "ng-dialog": "^1.4.0",
     "path": "^0.12.7",
     "request": "^2.88.2",
     "serve-favicon": "^2.5.0"

@@ -35,7 +35,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
                 url: "/categories",
             }).then(
                 function (response) {
-                    console.log("hola, todo ok", response);
+                    //console.log("hola, todo ok", response);
                     $scope.categories = response.data;
                 },
                 function errorCallback(response) {
@@ -47,7 +47,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
                 url: "/genres",
             }).then(
                 function (response) {
-                    console.log("hola, todo ok", response);
+                    //console.log("hola, todo ok", response);
                     $scope.genres = response.data;
                 },
                 function errorCallback(response) {
@@ -92,7 +92,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
                 },
             }).then(
                 function (response) {
-                    console.log("hola, todo ok", response);
+                    //console.log("hola, todo ok", response);
                     $location.path("/game/" + response.data.appid);
                 },
                 function errorCallback(response) {
@@ -203,7 +203,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
     };
     })
     .controller("searchCtrl", function ($scope, $http, $location) {
-  console.log("$http", $http);
+  //console.log("$http", $http);
   $scope.minPrice = 0;
   $scope.reverse = false;
   //Levanta los datos cuando se refresca la pagina
@@ -296,7 +296,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
             $scope.categories = response.data.categories.map(function (category) {
                 return { name: category, checked: false };
             });
-            console.log("refresh1");
+            //console.log("refresh1");
             refresh();
         },
         function errorCallback(response) {
@@ -395,7 +395,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
 
   $scope.searchBy = function () {
     $scope.search = $scope.search_buffer;
-    console.log("refresh2");
+    //console.log("refresh2");
     $scope.currentPage = 1;
     refresh();
   };
@@ -416,11 +416,11 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
       $scope.filters[fi].splice(index, 1);
     }
     $scope.currentPage = 1;
-    console.log("refresh4");
+    //console.log("refresh4");
     refresh();
   };
     $scope.filterByPrice = function () {
-        console.log("refresh5");
+        //console.log("refresh5");
         $scope.currentPage = 1;
         refresh();
     };
@@ -430,7 +430,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
         $scope.isWindowsPresent = $scope.game.platforms.includes("windows");
         $scope.isMacPresent = $scope.game.platforms.includes("mac");
         $scope.isLinuxPresent = $scope.game.platforms.includes("linux");
-        console.log("los valores son", $scope.isWindowsPresent, $scope.isMacPresent, $scope.isLinuxPresent);
+        //console.log("los valores son", $scope.isWindowsPresent, $scope.isMacPresent, $scope.isLinuxPresent);
     };
 
     $rootScope.$on("gamePlatformsUpdated", function () {
@@ -443,7 +443,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
           url: "/game/" + $routeParams.game,
         }).then(
             function (response) {
-                console.log("hola, todo ok", response);
+                //console.log("hola, todo ok", response);
                 $scope.game = response.data;
 
                 $scope.percentage = ($scope.game.positive_ratings / $scope.game.total_ratings) * 100;
@@ -463,7 +463,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
             url: "/game/" + $routeParams.game + "/reviews",
           }).then(
               function (response) {
-                  console.log("hola, todo ok consegui las reviews", response);
+                  //console.log("hola, todo ok consegui las reviews", response);
                   $scope.reviews = response.data;
               },
               function errorCallback(response) {
@@ -508,7 +508,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
             data: data
         }).then(
             function (response) {
-                console.log("hola, todo ok", response);
+                //console.log("hola, todo ok", response);
             }
         );
     };
@@ -554,10 +554,10 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
             url: "/game/" + $routeParams.game,
         }).then(
             function (response) {
-                console.log("hola, todo ok", response);
+                //console.log("hola, todo ok", response);
             },
             function errorCallback(response) {
-                console.log("hola, todo mal!!", response);
+                //console.log("hola, todo mal!!", response);
             }
         );
         $location.path("/");
@@ -569,11 +569,11 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
             url: "/game/" + $routeParams.game + "/reviews/" + review_id,
         }).then(
             function (response) {
-                console.log("hola, todo ok", response);
+                //console.log("hola, todo ok", response);
                 refresh();
             },
             function errorCallback(response) {
-                console.log("hola, todo mal!!", response);
+                //console.log("hola, todo mal!!", response);
             }
         );
     };
@@ -768,11 +768,11 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
             },
         }).then(
             function (response) {
-                console.log("hola, todo ok", response);
+                //console.log("hola, todo ok", response);
                 $scope.reviews.push(response.data);
             },
             function errorCallback(response) {
-                console.log("hola, todo mal!!", response);
+                //console.log("hola, todo mal!!", response);
             }
         );
         ngDialog.closeAll();
@@ -792,11 +792,11 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
             },
         }).then(
             function (response) {
-                console.log("hola, todo ok", response);
+                //console.log("hola, todo ok", response);
                 refresh();
             },
             function errorCallback(response) {
-                console.log("hola, todo mal!!", response);
+                //console.log("hola, todo mal!!", response);
             }
         );
         ngDialog.closeAll();
@@ -817,7 +817,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
             data: data,
         }).then(
             function (response) {
-                console.log("hola, todo ok", response);
+                //console.log("hola, todo ok", response);
                 //data is {'<feature>': <value>}, update with relfection
                 // feature could be nested by dots
                 var keys = carKey.split(".");
@@ -830,7 +830,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
                 $rootScope.$emit('gamePlatformsUpdated');
             },
             function errorCallback(response) {
-                console.log("hola, todo mal!!", response);
+                //console.log("hola, todo mal!!", response);
             }
         );
         ngDialog.closeAll();
@@ -850,7 +850,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
             url: "/" + $scope.carKey,
         }).then(
             function (response) {
-                console.log("hola, todo ok", response);
+                //console.log("hola, todo ok", response);
                 $scope.caracteristics = response.data.map(function (car) {
                     return { name: car, checked: false };
                 });
@@ -865,7 +865,7 @@ angular.module("app",["ngRoute", "ngTouch", "angular-carousel", "ngSanitize", "n
                 }
             },
             function errorCallback(response) {
-                console.log("hola, todo mal!!", response);
+                //console.log("hola, todo mal!!", response);
             }
         );
     } else if ($scope.carKey == "platforms") {
